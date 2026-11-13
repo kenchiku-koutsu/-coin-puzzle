@@ -46,4 +46,3 @@ $('back').addEventListener('click',()=>{$('experiment').hidden=true;flipped=fals
 for(const [id,delta] of [['decrease',-1],['increase',1]]){$(id).addEventListener('click',()=>{range.value=String(Math.max(0,Math.min(heads,Number(range.value)+delta)));range.dispatchEvent(new Event('input'))})}
 setProblem(100,10)})();
 </script></body></html>
-
