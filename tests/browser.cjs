@@ -36,7 +36,11 @@ const fs = require('node:fs');
    assert.equal(+(await page.locator('#right').textContent()),h-n);
    assert.equal(await page.locator('.coin.head').count(),n);
    assert.equal(await page.locator('.coin').count(),h);
+   // Track each physical coin, not only the total number of heads.
+   const beforeCoins=await page.locator('.coin').evaluateAll(coins=>{window.trackedCoins=coins;return coins.map(c=>({face:c.textContent,x:c.getBoundingClientRect().x+scrollX,y:c.getBoundingClientRect().y+scrollY}))});
    await page.locator('#flip').click();
+   const afterCoins=await page.locator('.coin').evaluateAll(coins=>coins.map((c,i)=>({face:c.textContent,x:c.getBoundingClientRect().x+scrollX,y:c.getBoundingClientRect().y+scrollY,same:c===window.trackedCoins[i]})));
+   afterCoins.forEach((coin,i)=>{assert.equal(coin.face,beforeCoins[i].face==='表'?'裏':'表');assert.equal(coin.x,beforeCoins[i].x);assert.equal(coin.y,beforeCoins[i].y);assert.equal(coin.same,true)});
    assert.equal(+(await page.locator('#left').textContent()),h-n);
    assert.equal(+(await page.locator('#right').textContent()),h-n);
    assert.equal(await page.locator('.coin.head').count(),h-n);
@@ -45,7 +49,9 @@ const fs = require('node:fs');
    assert.equal(await page.locator('#explanation').isVisible(),true);
    await page.locator('#flip').click();
    assert.equal(+(await page.locator('#left').textContent()),n);
-   assert.equal(await page.locator('#answer').isVisible(),false);cases++;
+   assert.equal(await page.locator('#answer').isVisible(),false);
+   assert.deepEqual(await page.locator('.coin').allTextContents(),beforeCoins.map(c=>c.face));
+   assert.equal(await page.locator('.coin').evaluateAll(coins=>coins.every((c,i)=>c===window.trackedCoins[i])),true);cases++;
   }
   await page.locator('#reset').click();
   assert.equal(await page.locator('#range').inputValue(),String(Math.floor(h/3)));
