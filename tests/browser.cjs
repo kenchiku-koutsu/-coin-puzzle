@@ -5,13 +5,16 @@ const path = require('node:path');
 const http = require('node:http');
 const fs = require('node:fs');
 (async () => {
- const server=http.createServer((req,res)=>{res.setHeader('Content-Type','text/html; charset=utf-8');res.end(fs.readFileSync(path.resolve(__dirname,'../index.html')))});
+ const server=http.createServer((req,res)=>{const asset=req.url==='/assets/korostar-reference.png';res.setHeader('Content-Type',asset?'image/png':'text/html; charset=utf-8');res.end(fs.readFileSync(path.resolve(__dirname,asset?'../assets/korostar-reference.png':'../index.html')))});
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const browser = await chromium.launch({executablePath:process.env.CHROMIUM_PATH || '/usr/bin/chromium',headless:true,args:['--no-sandbox']});
- const page = await browser.newPage();
+ const page = await browser.newPage({viewport:{width:375,height:812}});
  const errors=[]; page.on('pageerror',e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:'+server.address().port);
  assert.equal(await page.locator('#puzzle').isVisible(),false);
+ await page.locator('#coinStart img').waitFor();
+ assert.equal(await page.locator('#coinStart img').evaluate(img=>img.complete && img.naturalWidth>0),true);
+ if(process.env.PREVIEW_PATH) await page.screenshot({path:process.env.PREVIEW_PATH,fullPage:true});
  await page.keyboard.press('Tab'); assert.equal(await page.locator(':focus').getAttribute('id'),'coinStart');
  await page.keyboard.press('Enter'); assert.equal(await page.locator(':focus').getAttribute('id'),'problemTitle');
  assert.equal(await page.locator('#experiment').isVisible(),false);
