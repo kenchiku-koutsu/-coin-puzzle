@@ -7,16 +7,18 @@
 
 /* Reference artwork is placed unchanged; no transparent master is implied. */
 .intro{position:relative;isolation:isolate;overflow:hidden}
-.intro::before{content:"";position:absolute;inset:0;z-index:-1;background:url('assets/korostar-reference.png') center / cover no-repeat;opacity:.08;pointer-events:none}
-.start-coin.korostar-start{width:104px;height:147px;padding:0;border:2px solid #f5cf6a;border-radius:18px;background:#f8f4e9;box-shadow:0 4px 0 #a67518;overflow:hidden}
+
+.start-coin.korostar-start{width:128px;height:181px;padding:0;border:2px solid #f5cf6a;border-radius:18px;background:#f8f4e9;box-shadow:0 4px 0 #a67518;overflow:hidden}
+.intro .tap-caption{margin:0 0 24px;font-size:1rem}.intro .preview-question{margin:16px 0}
 .korostar-start img{display:block;width:100%;height:100%;object-fit:contain}
 </style></head><body><main>
 <section class="card intro" aria-labelledby="title">
 <div class="eyebrow">見えなくても、そろえられる？</div>
 <h1 id="title">コインの不思議</h1>
+<p class="preview-question">目をつぶったままコインを分けて、<br>左右の「表の枚数」をそろえられる？</p>
 <button class="start-coin korostar-start" id="coinStart" aria-label="コロスターを押して問題を始める"><img src="assets/korostar-reference.png" width="160" height="226" alt="" draggable="false"></button>
-<p>目をつぶったまま、<br>コインを左と右に分けよう。<br>両方の「表の枚数」をそろえられるかな？</p>
-<button class="primary" id="start" aria-controls="puzzle">問題にチャレンジ</button>
+<p class="tap-caption">コロスターをタップして遊ぶ</p>
+<button class="primary" id="start" aria-controls="puzzle">はじめる</button>
 </section>
 <div id="puzzle" hidden>
 <section class="card" aria-labelledby="problemTitle"><p class="step-note">まずは、考えてみよう</p><h2 id="problemTitle" tabindex="-1">① 問題を選ぼう</h2>
