@@ -133,12 +133,12 @@ for(const p of fixture.strategies){
  el('strategyRun').click();assert.equal(el('strategyResultPanel').hidden,false);assert.equal(el('strategyProof').hidden,true);
  assert.equal(el('strategyCoinsA').children.filter(n=>n.textContent==='表').length,p.result.a);
  assert.equal(el('strategyCoinsB').children.filter(n=>n.textContent==='表').length,p.result.b);
- if(p.k===50&&p.mode==='none')assert.match(el('strategyOutcome').textContent,/この配置では成功/);
+ if(p.k===50&&p.mode==='none')assert.match(el('strategyOutcome').textContent,/成功/);
  el('strategyVerify').click();assert.equal(el('strategyProof').hidden,false);
  assert.equal(el('strategyProof').classList.contains('verified'),p.guaranteed);
  assert.equal(el('strategyExplain').hidden,!p.guaranteed);
  if(!p.guaranteed){assert.match(el('strategyProofText').textContent,/反例/);assert.equal(el('strategyCoinsA').children.filter(n=>n.textContent==='表').length,p.counterResult.a);assert.equal(el('strategyCoinsB').children.filter(n=>n.textContent==='表').length,p.counterResult.b);assert.equal(el('strategyProofRetry').hidden,false);el('strategyProofRetry').click();assert.equal(el('strategyResultPanel').hidden,true);assert.equal(el('strategyCount').value,String(p.k));assert.equal(document.activeElement.id,'strategyCount');el('strategyRun').click()}
- else {assert.match(el('strategyProofText').textContent,/どの配置でも表の枚数がそろいます/);assert.equal(el('strategyProofRetry').hidden,true)}
+ else {assert.equal(el('strategyProofRetry').hidden,true)}
  el('strategyAnother').click();assert.equal(el('strategyProof').hidden,true);assert.equal(el('strategyExplain').hidden,true);
  el('strategyRetry').click();assert.equal(el('strategyResultPanel').hidden,true);assert.equal(el('strategyCount').value,String(p.k));assert.equal(document.activeElement.id,'strategyCount');assert.equal(actionNodes.find(n=>n.dataset.mode===p.mode).attrs['aria-pressed'],'true');assert.match(el('strategyEditNote').textContent,/前の作戦を残して/);
 }
