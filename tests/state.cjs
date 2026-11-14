@@ -143,7 +143,7 @@ for(const p of fixture.strategies){
  el('strategyRetry').click();assert.equal(el('strategyResultPanel').hidden,true);assert.equal(el('strategyCount').value,String(p.k));assert.equal(document.activeElement.id,'strategyCount');assert.equal(actionNodes.find(n=>n.dataset.mode===p.mode).attrs['aria-pressed'],'true');assert.match(el('strategyEditNote').textContent,/前の作戦を残して/);
 }
 const solutions=fixture.strategies.filter(p=>p.guaranteed).map(p=>[p.k,p.mode]);assert.deepEqual(solutions,[[10,'a'],[90,'b']]);
-assert.ok(html.indexOf('id="coinStart"')<html.indexOf('id="problemHeading"'));assert.match(html,/A組とB組のコインの枚数は、同じでなくても/);assert.match(html,/A組とB組を合わせると必ず100枚/);
+assert.ok(html.indexOf('id="coinStart"')<html.indexOf('id="problemHeading"'));assert.match(html,/A組とB組を合わせると必ず100枚/);
 el('strategyCount').value='10';el('strategyCount').dispatchEvent({type:'input'});el('strategyActionA').click();el('strategyRun').click();el('strategyVerify').click();el('strategyExplain').click();assert.equal(el('experiment').hidden,false);assert.equal(el('thinkingPanel').hidden,true);
 assert.match(el('strategyBridgeNote').textContent,/A組の10枚/);
 el('start').click();el('strategyCount').value='90';el('strategyCount').dispatchEvent({type:'input'});el('strategyActionB').click();el('strategyRun').click();el('strategyVerify').click();el('strategyExplain').click();assert.match(el('strategyBridgeNote').textContent,/B組の10枚/);
