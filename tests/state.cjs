@@ -22,14 +22,22 @@ for t,h in [(100,10),(200,16),(50,5)]:
   rest=[1]*(h-n)+[0]*(t-2*h+n)
   flipped=[1-v for v in selected]
   cases.append(dict(total=t,heads=h,n=n,before=sum(selected),after=sum(flipped),remaining=sum(rest)))
-print(json.dumps({'nodes':p.nodes,'cases':cases}))
+strategies=[]
+for k in range(1,100):
+ for mode in ['a','b','none','both']:
+  values=list(range(max(0,10-(100-k)),min(10,k)+1))
+  def outcome(x): return {'a':k-x if mode in ['a','both'] else x,'b':(100-k)-(10-x) if mode in ['b','both'] else 10-x}
+  sample=values[len(values)//2]
+  counter=next((x for x in values if outcome(x)['a']!=outcome(x)['b']),None)
+  strategies.append(dict(k=k,mode=mode,sample=sample,result=outcome(sample),guaranteed=counter is None,counter=counter,counterResult=None if counter is None else outcome(counter)))
+print(json.dumps({'nodes':p.nodes,'cases':cases,'strategies':strategies}))
 `,htmlPath],{encoding:'utf8'}));
 class Node {
  constructor(tag,attrs={}) {
   this.tag=tag;this.attrs={...attrs};this.id=attrs.id;this.textContent='';this.value=attrs.value||'';
   this.hidden='hidden' in attrs;this.open=false;this.disabled=false;this.children=[];this.events={};
   this.min=attrs.min||'';this.max=attrs.max||'';this.step=attrs.step||'';
-  this.dataset={total:attrs['data-total'],heads:attrs['data-heads']};
+  this.dataset={total:attrs['data-total'],heads:attrs['data-heads'],mode:attrs['data-mode']};
   const classes=new Set((attrs.class||'').split(/\s+/));
   this.classList={toggle:(c,on)=>on?classes.add(c):classes.delete(c),contains:c=>classes.has(c)};
  }
@@ -40,14 +48,15 @@ class Node {
  focus(){document.activeElement=this}
  scrollIntoView(){}
  checkValidity(){const n=Number(this.value);return this.value!==''&&Number.isInteger(n)&&n>=Number(this.min)&&n<=Number(this.max)}
- set innerHTML(markup){this.children=Array.from(markup.matchAll(/<(span|button)(?: type="button")? class="(coin|check-coin)"><\/\1>/g),match=>new Node(match[1],{class:match[2]}))}
+ set innerHTML(markup){this.children=Array.from(markup.matchAll(/<(span|button)(?: type="button")? class="([^"]+)">([^<]*)<\/\1>/g),match=>{const n=new Node(match[1],{class:match[2]});n.textContent=match[3];return n})}
 }
 const ids=new Map(),choices=[];
 for(const item of fixture.nodes){const el=new Node(item.tag,item.attrs);if(el.id){assert.ok(!ids.has(el.id),'duplicate id');ids.set(el.id,el)}if(item.attrs['data-total'])choices.push(el)}
-const document={activeElement:null,getElementById:id=>{assert.ok(ids.has(id),`missing #${id}`);return ids.get(id)},querySelectorAll:selector=>{assert.equal(selector,'.choice');return choices}};
+const document={activeElement:null,getElementById:id=>{assert.ok(ids.has(id),`missing #${id}`);return ids.get(id)},querySelectorAll:selector=>{if(selector==='.choice')return choices;assert.equal(selector,'.strategy-action');return [...ids.values()].filter(n=>n.dataset.mode)}};
 const html=fs.readFileSync(htmlPath,'utf8');
-const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
-vm.runInNewContext(script,{document,Event:class{constructor(type){this.type=type}}},{timeout:1000});
+const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
+const deterministicMath=Object.create(Math);deterministicMath.random=()=>0.5;
+for(const script of scripts)vm.runInNewContext(script,{document,Math:deterministicMath,Event:class{constructor(type){this.type=type}}},{timeout:1000});
 const el=id=>ids.get(id);
 assert.equal(el('puzzle').hidden,true);el('coinStart').click();assert.equal(el('puzzle').hidden,false);
 assert.equal(el('experiment').hidden,true);assert.equal(el('range').value,'3');
@@ -106,8 +115,35 @@ tapped.forEach((coin,i)=>{assert.equal(coin.textContent,arbitraryFaces[i]==='表
 el('checkFlip').click();assert.deepEqual(el('checkPicked').children.map(x=>x.textContent),tapped.map(x=>x.textContent));
 el('flip').click();assert.deepEqual(tapped.map(x=>x.textContent),arbitraryFaces);
 tapped[7].click();tapped[7].click();assert.deepEqual(tapped.map(x=>x.textContent),arbitraryFaces);
-assert.match(html,/次に進むと、解き方の手順/);
+assert.match(html,/ここから先は、解き方の手順/);
 assert.ok(html.indexOf('<div class="choices"')>html.indexOf('<div id="experiment"'));assert.match(html,/100枚のコインがあります。表向きは10枚、裏向きは90枚/);
 assert.match(html,/触っても/);
-assert.equal((html.match(/<script>/g)||[]).length,1);
-console.log(`PASS: ${fixture.cases.length} Python-derived configurations; arbitrary coin taps and reversal without reordering; group-total labels; staged hints; visual comparison; reset/back. Simulated DOM only.`);
+assert.equal(scripts.length,2);
+// Strategy challenge: all possible split sizes and all supported flip operations.
+el('start').click();assert.equal(el('strategyCount').value,'');
+const actionNodes=[...ids.values()].filter(n=>n.dataset.mode);
+assert.ok(actionNodes.every(n=>n.attrs['aria-pressed']==='false'));
+assert.equal(el('strategyResultPanel').hidden,true);
+for(const value of ['', '0','100','2.5','abc']){el('strategyCount').value=value;el('strategyCount').dispatchEvent({type:'input'});el('strategyRun').click();assert.match(el('strategyError').textContent,/1から99/);assert.equal(el('strategyResultPanel').hidden,true)}
+el('strategyCount').value='50';el('strategyCount').dispatchEvent({type:'input'});el('strategyRun').click();assert.match(el('strategyError').textContent,/選んで/);
+for(const p of fixture.strategies){
+ el('strategyCount').value=String(p.k);el('strategyCount').dispatchEvent({type:'input'});
+ actionNodes.find(n=>n.dataset.mode===p.mode).click();
+ assert.equal(el('strategyCoinsA').children.length,0);assert.equal(el('strategyResultPanel').hidden,true);
+ el('strategyRun').click();assert.equal(el('strategyResultPanel').hidden,false);assert.equal(el('strategyProof').hidden,true);
+ assert.equal(el('strategyCoinsA').children.filter(n=>n.textContent==='表').length,p.result.a);
+ assert.equal(el('strategyCoinsB').children.filter(n=>n.textContent==='表').length,p.result.b);
+ if(p.k===50&&p.mode==='none')assert.match(el('strategyOutcome').textContent,/この配置では成功/);
+ el('strategyVerify').click();assert.equal(el('strategyProof').hidden,false);
+ assert.equal(el('strategyProof').classList.contains('verified'),p.guaranteed);
+ assert.equal(el('strategyExplain').hidden,!p.guaranteed);
+ if(!p.guaranteed){assert.match(el('strategyProofText').textContent,/反例/);assert.equal(el('strategyCoinsA').children.filter(n=>n.textContent==='表').length,p.counterResult.a);assert.equal(el('strategyCoinsB').children.filter(n=>n.textContent==='表').length,p.counterResult.b)}
+ else assert.match(el('strategyProofText').textContent,/どの配置でも表の枚数がそろいます/);
+ el('strategyAnother').click();assert.equal(el('strategyProof').hidden,true);assert.equal(el('strategyExplain').hidden,true);
+}
+const solutions=fixture.strategies.filter(p=>p.guaranteed).map(p=>[p.k,p.mode]);assert.deepEqual(solutions,[[10,'a'],[90,'b']]);
+el('strategyCount').value='10';el('strategyCount').dispatchEvent({type:'input'});el('strategyActionA').click();el('strategyRun').click();el('strategyVerify').click();el('strategyExplain').click();assert.equal(el('experiment').hidden,false);assert.equal(el('thinkingPanel').hidden,true);
+assert.match(el('strategyBridgeNote').textContent,/A組の10枚/);
+el('start').click();el('strategyCount').value='90';el('strategyCount').dispatchEvent({type:'input'});el('strategyActionB').click();el('strategyRun').click();el('strategyVerify').click();el('strategyExplain').click();assert.match(el('strategyBridgeNote').textContent,/B組の10枚/);
+el('start').click();assert.equal(el('strategyCount').value,'');assert.equal(el('strategyResultPanel').hidden,true);assert.equal(el('experiment').hidden,true);assert.equal(el('strategyBridgeNote').hidden,true);
+console.log(`PASS: ${fixture.cases.length} explanation configurations and ${fixture.strategies.length} Python-derived strategy cases; all split sizes/actions; lucky success vs guarantee; counterexamples; resets; explanation transition. Simulated DOM only.`);
