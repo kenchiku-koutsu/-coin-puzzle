@@ -26,7 +26,7 @@
 <p id="question">100枚のコインがあります。表向きは10枚、裏向きは90枚です。</p>
 <p>あなたは目隠しをしています。触っても、どのコインが表向きかは見分けられません。</p>
 <p class="problem-goal"><strong>100枚すべてをA組とB組に分け、A組とB組の「表向きの枚数」を同じにするには、どうすればよいでしょう？</strong></p>
-<p>A組とB組のコインの枚数は、同じでなくてもかまいません。ただし、A組とB組を合わせると必ず100枚です。コインを増やしたり、取り除いたりはできません。どちらの組にも1枚以上入れます。コインは平らに置き、移動や裏返しができます。</p>
+<p>A組とB組のコインの枚数は、同じでなくてもかまいません。A組とB組を合わせると必ず100枚です。コインは平らに置き、移動や裏返しができます。</p>
 <p>どのコインが表でも、必ず成功する方法を考えてください。</p></div>
 <button class="primary" id="start" aria-controls="puzzle">考えてみる</button>
 </section>
@@ -34,7 +34,7 @@
 <section class="card" id="thinkingPanel" aria-labelledby="problemTitle"><p class="step-note">100枚・表10枚の問題で考えてみよう</p><h2 id="problemTitle" tabindex="-1">① 自分で考える</h2>
 <p>表裏が見えないまま、二つに分ける作戦を考えよう。</p>
 <div class="strategy-step"><h3>1．何枚と何枚に分ける？</h3>
-<label for="strategyCount">A組に分ける枚数</label><input id="strategyCount" type="number" inputmode="numeric" min="1" max="99" step="1" autocomplete="off" placeholder="自分で決めて入力">
+<label for="strategyCount">A組に分ける枚数</label><input id="strategyCount" type="number" inputmode="numeric" min="0" max="100" step="1" autocomplete="off" placeholder="自分で決めて入力">
 <p id="strategySplit" class="strategy-split" aria-live="polite">A組 — 枚 ／ B組 — 枚（合計100枚）</p><p id="strategyEditNote" class="strategy-edit-note" role="status" aria-live="polite"></p>
 <p class="muted">A組の枚数を決めると、残りがB組になります。A組とB組の合計は、いつも100枚です。どのコインが表かは、まだ見えません。</p></div>
 <div class="strategy-step"><h3>2．分けたあと、どうする？</h3>
@@ -158,7 +158,7 @@ setProblem(100,10)})();
 const $=id=>document.getElementById(id);
 const modes={a:'A組だけ裏返す',b:'B組だけ裏返す',none:'どちらも裏返さない',both:'両方とも裏返す'};
 const total=100,heads=10;let mode=null,trial=null;
-function count(){const input=$('strategyCount'),value=input.value.trim();if(value==='')return null;const k=Number(value);return Number.isInteger(k)&&k>=1&&k<total?k:null}
+function count(){const input=$('strategyCount'),value=input.value.trim();if(value==='')return null;const k=Number(value);return Number.isInteger(k)&&k>=0&&k<=total?k:null}
 function plan(){const k=count();return k!==null&&Object.hasOwn(modes,mode)?{k,mode}:null}
 function outcomes(p,x){return {a:p.mode==='a'||p.mode==='both'?p.k-x:x,b:p.mode==='b'||p.mode==='both'?(total-p.k)-(heads-x):heads-x}}
 function possible(k){const values=[];for(let x=Math.max(0,heads-(total-k));x<=Math.min(heads,k);x++)values.push(x);return values}
@@ -173,7 +173,7 @@ $('strategyOutcome').textContent=result.a===result.b?`この配置では成功�
 $('strategyOutcome').className=result.a===result.b?'success':'';$('strategyResultPanel').hidden=false;$('strategyProofRetry').hidden=true;$('strategyProof').hidden=true;$('strategyExplain').hidden=true;
 }
 function focusResult(){$('strategyResultTitle').focus({preventScroll:true});$('strategyResultTitle').scrollIntoView({block:'start'})}
-function run(){const p=plan();if(!p){$('strategyError').textContent=count()===null?'A組の枚数を、1から99までの整数で入れてください。':'分けたあとに、どの組を裏返すか選んでください。';return}const values=possible(p.k);const previous=trial;const alternatives=values.filter(x=>!previous||x!==previous.x);const pool=alternatives.length?alternatives:values;const x=pool[Math.floor(Math.random()*pool.length)];$('strategyError').textContent='';draw(p,x);focusResult()}
+function run(){const p=plan();if(!p){$('strategyError').textContent=count()===null?'A組の枚数を、0から100までの整数で入れてください。':'分けたあとに、どの組を裏返すか選んでください。';return}const values=possible(p.k);const previous=trial;const alternatives=values.filter(x=>!previous||x!==previous.x);const pool=alternatives.length?alternatives:values;const x=pool[Math.floor(Math.random()*pool.length)];$('strategyError').textContent='';draw(p,x);focusResult()}
 function verify(){if(!trial)return;const p={k:trial.k,mode:trial.mode},values=possible(p.k);const counter=values.find(x=>{const r=outcomes(p,x);return r.a!==r.b});if(counter!==undefined){draw(p,counter);$('strategyProofText').textContent=`この作戦は、どの配置でも成功する方法ではありません。上の図が反例です。A組に表が${counter}枚入った場合には、表の枚数がそろいません。枚数や裏返す組を変えて考えてみよう。`;$('strategyProof').classList.toggle('verified',false);$('strategyProofRetry').hidden=false}else{$('strategyProofText').textContent=`A組に入る表の枚数について、起こり得る${values.length}通りをすべて確かめました。この作戦は、どの配置でも表の枚数がそろいます。${p.k}枚と${total-p.k}枚に分けて「${modes[p.mode]}」で成功です。理由も確かめてみよう。`;$('strategyProof').classList.toggle('verified',true);$('strategyProofRetry').hidden=true;$('strategyExplain').hidden=false}$('strategyProof').hidden=false}
 for(const b of document.querySelectorAll('.strategy-action'))b.addEventListener('click',()=>{mode=b.dataset.mode;updatePlan()});
 $('strategyCount').addEventListener('input',updatePlan);

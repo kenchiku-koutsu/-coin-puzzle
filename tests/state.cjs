@@ -23,7 +23,7 @@ for t,h in [(100,10),(200,16),(50,5)]:
   flipped=[1-v for v in selected]
   cases.append(dict(total=t,heads=h,n=n,before=sum(selected),after=sum(flipped),remaining=sum(rest)))
 strategies=[]
-for k in range(1,100):
+for k in range(101):
  for mode in ['a','b','none','both']:
   values=list(range(max(0,10-(100-k)),min(10,k)+1))
   def outcome(x): return {'a':k-x if mode in ['a','both'] else x,'b':(100-k)-(10-x) if mode in ['b','both'] else 10-x}
@@ -124,7 +124,7 @@ el('start').click();assert.equal(el('strategyCount').value,'');
 const actionNodes=[...ids.values()].filter(n=>n.dataset.mode);
 assert.ok(actionNodes.every(n=>n.attrs['aria-pressed']==='false'));
 assert.equal(el('strategyResultPanel').hidden,true);
-for(const value of ['', '0','100','2.5','abc']){el('strategyCount').value=value;el('strategyCount').dispatchEvent({type:'input'});el('strategyRun').click();assert.match(el('strategyError').textContent,/1から99/);assert.equal(el('strategyResultPanel').hidden,true)}
+for(const value of ['', '-1','101','2.5','abc']){el('strategyCount').value=value;el('strategyCount').dispatchEvent({type:'input'});el('strategyRun').click();assert.match(el('strategyError').textContent,/0から100/);assert.equal(el('strategyResultPanel').hidden,true)}
 el('strategyCount').value='50';el('strategyCount').dispatchEvent({type:'input'});el('strategyRun').click();assert.match(el('strategyError').textContent,/選んで/);
 for(const p of fixture.strategies){
  el('strategyCount').value=String(p.k);el('strategyCount').dispatchEvent({type:'input'});
