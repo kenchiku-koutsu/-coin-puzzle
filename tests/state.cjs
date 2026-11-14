@@ -40,7 +40,7 @@ class Node {
  focus(){document.activeElement=this}
  scrollIntoView(){}
  checkValidity(){const n=Number(this.value);return this.value!==''&&Number.isInteger(n)&&n>=Number(this.min)&&n<=Number(this.max)}
- set innerHTML(markup){this.children=Array.from(markup.matchAll(/<span class="(coin|check-coin)"><\/span>/g),match=>new Node('span',{class:match[1]}))}
+ set innerHTML(markup){this.children=Array.from(markup.matchAll(/<(span|button)(?: type="button")? class="(coin|check-coin)"><\/\1>/g),match=>new Node(match[1],{class:match[2]}))}
 }
 const ids=new Map(),choices=[];
 for(const item of fixture.nodes){const el=new Node(item.tag,item.attrs);if(el.id){assert.ok(!ids.has(el.id),'duplicate id');ids.set(el.id,el)}if(item.attrs['data-total'])choices.push(el)}
@@ -87,11 +87,26 @@ for(const choice of choices){
   el('flip').click();assert.equal(el('answer').hidden,true);assert.equal(el('checkStage').textContent,'裏返す前');assert.equal(el('checkResult').textContent,'');
   assert.deepEqual(coins.map(x=>x.textContent),faces);
  }
- el('reset').click();assert.equal(document.activeElement.id,'range');assert.equal(el('hint').hidden,true);assert.match(el('hintHeading').textContent,/ヒント1/);
+ el('reset').click();assert.equal(document.activeElement.id,'selected-coin-0');assert.equal(el('hint').hidden,true);assert.match(el('hintHeading').textContent,/ヒント1/);
  el('back').click();assert.equal(el('experiment').hidden,true);assert.equal(document.activeElement.id,'problemTitle');
 }
+// Arbitrary taps must keep each coin's state and location, not regroup the heads.
+choices[0].click();el('try').click();el('range').value='0';el('range').dispatchEvent({type:'input'});
+const tapped=el('coins').children;const selected=[7,1,9,3];
+selected.forEach(i=>tapped[i].click());
+const example=fixture.cases.find(c=>c.total===100&&c.n===4);
+assert.equal(Number(el('left').textContent),example.before);assert.equal(Number(el('right').textContent),example.remaining);
+assert.equal(el('leftLabel').textContent,`選んだ${example.heads}枚中`);
+assert.equal(el('rightLabel').textContent,`残り${example.total-example.heads}枚中`);
+const arbitraryFaces=tapped.map(x=>x.textContent);
+tapped.forEach((coin,i)=>assert.equal(coin.textContent,selected.includes(i)?'表':'裏'));
+el('flip').click();assert.equal(Number(el('left').textContent),example.after);
+tapped.forEach((coin,i)=>{assert.equal(coin.textContent,arbitraryFaces[i]==='表'?'裏':'表');assert.equal(coin.disabled,true)});
+el('checkFlip').click();assert.deepEqual(el('checkPicked').children.map(x=>x.textContent),tapped.map(x=>x.textContent));
+el('flip').click();assert.deepEqual(tapped.map(x=>x.textContent),arbitraryFaces);
+tapped[7].click();tapped[7].click();assert.deepEqual(tapped.map(x=>x.textContent),arbitraryFaces);
 assert.match(html,/次に進むと、解き方の手順/);
 assert.match(html,/同じ考え方を、枚数を変えて/);
 assert.match(html,/見ても触っても/);
 assert.equal((html.match(/<script>/g)||[]).length,1);
-console.log(`PASS: ${fixture.cases.length} Python-derived configurations; stable coin identity and reversal; 3-stage hints; visual comparison and highlighted tails; reset/back. Simulated DOM only.`);
+console.log(`PASS: ${fixture.cases.length} Python-derived configurations; arbitrary coin taps and reversal without reordering; group-total labels; staged hints; visual comparison; reset/back. Simulated DOM only.`);

@@ -69,13 +69,10 @@ const fs = require('node:fs');
   }
   await page.locator('#reset').click();
   assert.equal(await page.locator('#range').inputValue(),String(Math.floor(h/3)));
-  assert.equal(await page.locator(':focus').getAttribute('id'),'range');
-  await page.keyboard.press('Home');assert.equal(await page.locator('#range').inputValue(),'0');
-  assert.equal(await page.locator('#decrease').isDisabled(),true);
-  await page.keyboard.press('End');assert.equal(await page.locator('#range').inputValue(),String(h));
-  assert.equal(await page.locator('#increase').isDisabled(),true);
-  await page.locator('#decrease').click();assert.equal(await page.locator('#range').inputValue(),String(h-1));
-  await page.locator('#increase').click();assert.equal(await page.locator('#range').inputValue(),String(h));
+  assert.equal(await page.locator(':focus').getAttribute('id'),'selected-coin-0');
+  const face=await page.locator('#selected-coin-0').textContent();
+  await page.keyboard.press('Enter');assert.notEqual(await page.locator('#selected-coin-0').textContent(),face);
+  await page.keyboard.press('Space');assert.equal(await page.locator('#selected-coin-0').textContent(),face);
   await page.locator('#back').click();
  }
  for(const width of [320,375,390,768,1280]) {
