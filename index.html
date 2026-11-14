@@ -21,7 +21,7 @@
 
 <h1 id="title">コインの不思議</h1>
 <div class="problem-statement" aria-labelledby="problemHeading"><h2 id="problemHeading" tabindex="-1">問題</h2>
-<p id="question">100枚のコインがあります。表向きは10枚、裏向きは90枚です。</p>
+<p id="question">100枚のコインがあります。表を向いているコインは10枚、裏を向いているコインは90枚です。</p>
 <p>あなたは目隠しをしています。触っても、どのコインが表向きかは見分けられません。</p>
 <p class="problem-goal"><strong>100枚をA組とB組に分け、両方の組の「表を向いているコインの枚数」を必ず同じにするには、どうすればよいでしょう？</strong></p>
 <p>A組とB組のそれぞれのコインの枚数は、同じでなくてもかまいません。A組とB組を合わせると必ず100枚です。コインは平らに置き、移動や裏返しができます。</p>
@@ -64,18 +64,18 @@
 <p class="muted">ヒントを使っても大丈夫。自分のペースで考えよう。</p></div>
 <details class="strategy-spoiler"><summary>答えと解説を見る</summary><p>ここから先は、解き方の手順が表示されます。自分で試したいときは、上の作戦画面に戻ろう。</p><button class="primary" id="try" aria-controls="experiment">手順を見て、仕組みを調べる</button></details></section>
 <div id="experiment" hidden>
-<section class="card" aria-labelledby="experimentTitle"><h2 id="experimentTitle" tabindex="-1">② 解き方と理由を確かめる</h2><p id="verificationSetup" class="verification-setup"></p><p id="strategyBridgeNote" class="hint" hidden></p><details id="variantSettings"><summary>枚数を変えて、同じ方法を検証する</summary><p>追加で試したいときだけ、条件を変えられます。</p><div class="choices" role="group" aria-label="同じ問題の枚数設定を選択"><button class="choice active" data-total="100" data-heads="10" aria-pressed="true">100枚<br>表10枚</button><button class="choice" data-total="200" data-heads="16" aria-pressed="false">200枚<br>表16枚</button><button class="choice" data-total="50" data-heads="5" aria-pressed="false">50枚<br>表5枚</button></div></details><p id="instruction"></p><p class="phase">ここからは、表裏を見ながら検証します</p><p class="muted" id="rangeHelp">目隠しで表を探すゲームではありません。取り出した組に表が何枚入っていたとしても、同じ手順が使えるか確かめよう。</p>
+<section class="card" aria-labelledby="experimentTitle"><h2 id="experimentTitle" tabindex="-1">② 解き方と理由を確かめる</h2><p id="verificationSetup" class="verification-setup"></p><p id="strategyBridgeNote" class="hint" hidden></p><details id="variantSettings"><summary>枚数を変えて、同じ方法を検証する</summary><p>追加で試したいときだけ、条件を変えられます。</p><div class="choices" role="group" aria-label="同じ問題の枚数設定を選択"><button class="choice active" data-total="100" data-heads="10" aria-pressed="true">100枚<br>表10枚</button><button class="choice" data-total="200" data-heads="16" aria-pressed="false">200枚<br>表16枚</button><button class="choice" data-total="50" data-heads="5" aria-pressed="false">50枚<br>表5枚</button></div></details><p id="instruction"></p><p class="phase">ここからは、表裏を見ながら検証します</p><p class="muted" id="rangeHelp">ここでは、取り出す枚数を固定したまま、その組の表と裏の組合せを変えて試します。どの組合せでも、同じ手順で表の枚数がそろうか確かめよう。</p>
 <p><strong id="coinEditInstruction">コインをタップして、表・裏を切り替えよう。</strong></p><p class="muted" id="coinEditHelp">まず、裏返す前の組合せを作ります。残りの組の表の数も、それに合わせて変わります。</p>
 <input id="range" type="hidden" value="3"><div class="coins" id="coins" role="group" aria-label="選んだ組の表裏を設定"></div><p class="muted" id="before"></p></section>
 <section class="card"><h2 id="flipTitle">③ 裏返した結果を比べる</h2>
 <div class="stats" aria-live="polite" aria-atomic="true"><div class="stat"><span id="leftLabel"></span><b id="left">0</b><span>枚が表</span></div><div class="stat"><span id="rightLabel"></span><b id="right">0</b><span>枚が表</span></div></div>
 <p id="flipInstruction"></p><button class="primary" id="flip">選んだコインを全部裏返す</button><p id="result" class="result" role="status" aria-live="polite" aria-atomic="true"></p>
 <section class="solution-key" id="solutionKey" hidden aria-labelledby="solutionKeyTitle"><h3 id="solutionKeyTitle">正解のポイント</h3>
-<p><strong>最初の「表の総数」と、分けるコインの枚数を同じにすること。</strong></p>
+<p><strong>最初に表を向いているコインと同じ枚数を分け、その組だけを全部裏返すこと。</strong></p>
 <p id="solutionSteps"></p>
-<p>たとえば、全体の表が20枚なら、どれでも20枚を分けて、その20枚だけを全部裏返します。<strong>分ける枚数は、最初の表の総数に合わせます。</strong></p>
+<p>たとえば、最初に表を向いているコインが20枚なら、どれでも20枚を分け、その20枚だけを全部裏返します。</p>
 <p id="solutionWhy"></p>
-<p>表のコインを探して選ぶ必要はありません。表裏を見ずに、どのコインを分けても使える方法です。</p></section>
+<p>分ける枚数を守れば、どのコインを選んでもかまいません。その組に表が何枚入っているかを知る必要もないので、目隠しのまま実行できます。</p></section>
 <div class="experiment-actions"><details id="answer" hidden><summary>なぜ必ずそろう？ 引き算で確かめる</summary>
 <p id="explanation"></p>
 <section class="proof-step"><h4>1．取り出した組の「裏」を数える</h4>
@@ -96,7 +96,7 @@
 <tr><th scope="row">取り出した組の裏</th><td id="proofVariablePicked"></td></tr>
 <tr><th scope="row">残りの組の表</th><td id="proofVariableRemaining"></td></tr></tbody></table>
 <p id="proofConclusion"></p>
-<p><strong>全体の表の枚数と取り出す枚数をそろえておけば、取り出した組の中の表が何枚でも、裏返した後の表の枚数はそろいます。</strong></p>
+<p><strong>最初の表の総数と同じ枚数を取り出すと、その組の裏の枚数と、残りの組の表の枚数がそろいます。そこで、取り出した組だけを全部裏返せば、両方の組の表の枚数がそろいます。</strong></p>
 </section>
 <details class="practice" id="checkDetails"><summary id="checkTitle">コインの動きでもう一度確かめる</summary>
 <p><strong>ここでは、なぜ表の枚数がそろうのかを図で確かめます。</strong>まず裏返す前の状態に戻して見てみよう。</p>
@@ -110,14 +110,14 @@
 <button class="secondary" id="checkReset" type="button" hidden>裏返す前に戻して、もう一度見る</button>
 <p>別の枚数でも確かめたいときは、検証画面の「枚数を変えて、同じ方法を検証する」を開こう。</p></details></details></div>
 <section class="practice" id="reflection" hidden aria-labelledby="thinkingTitle"><h3 id="thinkingTitle" tabindex="-1">この問題のひらめき</h3>
-<p>表を探さず、裏を表に変える。</p>
+<p><strong>分ける枚数を、最初に表を向いているコインの枚数に合わせる。</strong><br>あとは、その組だけを全部裏返す。</p>
 <p class="success"><strong>これで、この問題はおしまいです。</strong></p></section><div class="experiment-actions"><button class="secondary" id="reset">同じ条件で、裏返す前から試す</button><button class="secondary" id="back">作戦を変えて、100枚の問題に再挑戦する</button></div></section>
 </div></div>
 <section class="card source-note"><details><summary>この問題について</summary><p>「コインの不思議」は、見えない数と表裏の関係を考える論理パズルです。企業の公式問題や、採用試験への効果を示すものではありません。</p><p>参考：<a href="https://mindyourdecisions.com/blog/2024/11/11/apples-coins-on-a-table-riddle-interview-question/" target="_blank" rel="noopener noreferrer">Mind Your Decisions の紹介記事</a>（2026年11月14日確認）。Apple公式の出題記録は確認できていません。</p></details></section>
 <noscript><p class="card">このクイズで遊ぶには、ブラウザのJavaScriptを有効にしてください。</p></noscript>
 <p class="foot">登録不要・無料。操作はこのページの中だけで完結します。</p></main>
 <script>
-(()=>{'use strict';const $=id=>document.getElementById(id);let total=100,heads=10,flipped=false,hintStage=0,checkFlipped=false,selectedFaces=[];const range=$('range');function render(){renderHint();if(selectedFaces.length!==heads)setFacesFromCount();const n=Number(range.value),remaining=heads-n,picked=flipped?heads-n:n;$('verificationSetup').textContent=`検証する条件：全体${total}枚。そのうち表は${heads}枚、裏は${total-heads}枚。`;$('instruction').textContent=`表の総数と同じ${heads}枚を選びました。この${heads}枚に、表が何枚入っていたかを変えて試します。`;$('coins').setAttribute('aria-label',`選んだ${heads}枚。${flipped?'裏返した結果。コインを押すと新しい検証用の組合せに切り替わります':'コインを押すと表裏が切り替わります'}`);// Keep each coin in its own position: flipping changes its face, never its order.
+(()=>{'use strict';const $=id=>document.getElementById(id);let total=100,heads=10,flipped=false,hintStage=0,checkFlipped=false,selectedFaces=[];const range=$('range');function render(){renderHint();if(selectedFaces.length!==heads)setFacesFromCount();const n=Number(range.value),remaining=heads-n,picked=flipped?heads-n:n;$('verificationSetup').textContent=`検証する条件：全体${total}枚。そのうち表は${heads}枚、裏は${total-heads}枚。`;$('instruction').textContent=`最初に表を向いているコインは${heads}枚。そこで、表裏に関係なく${heads}枚を取り出し、残りと分けます。取り出す枚数は変えず、中の表と裏の組合せを変えて試そう。`;$('coins').setAttribute('aria-label',`選んだ${heads}枚。${flipped?'裏返した結果。コインを押すと新しい検証用の組合せに切り替わります':'コインを押すと表裏が切り替わります'}`);// Keep each coin in its own position: flipping changes its face, never its order.
 const coins=$('coins');
 if(coins.children.length!==heads){
 coins.innerHTML=Array.from({length:heads},()=>'<button type="button" class="coin"></button>').join('');
@@ -129,7 +129,7 @@ $('strategyBridgeNote').hidden=true;selectedFaces[i]=!selectedFaces[i];range.val
 Array.from(coins.children).forEach((coin,i)=>{const isHead=flipped?!selectedFaces[i]:selectedFaces[i];coin.classList.toggle('head',isHead);coin.textContent=isHead?'表':'裏';coin.disabled=false;coin.setAttribute('aria-pressed',String(isHead));coin.setAttribute('aria-label',`選んだコイン${i+1}：${isHead?'表':'裏'}${'。押すと'+(isHead?'裏':'表')+'に切り替え'}`)});
 $('coinEditInstruction').textContent=flipped?'結果のコインもタップできます。表・裏を切り替えて、別の組合せを試そう。':'コインをタップして、表・裏を切り替えよう。';
 $('coinEditHelp').textContent=flipped?'タップすると、今見えているコインから新しい検証用の組合せを作ります。そのあと、下のボタンで選んだ組を全部裏返して確かめられます。':'まず、裏返す前の組合せを作ります。残りの組の表の数も、それに合わせて変わります。';
-$('before').textContent=`${flipped?'裏返した後':'裏返す前'}：選んだ${heads}枚中${picked}枚が表。残り${total-heads}枚中${remaining}枚が表。`;$('leftLabel').textContent=`選んだ${heads}枚中`;$('rightLabel').textContent=`残り${total-heads}枚中`;$('flipInstruction').textContent=flipped?`選んだ${heads}枚だけを裏返しました。残りの${total-heads}枚は動かしていません。`:`このとき、選んだ${heads}枚だけを全部ひっくり返します。残りの${total-heads}枚はそのままです。`;$('left').textContent=picked;$('right').textContent=remaining;$('flip').textContent=flipped?'裏返す前に戻して、組合せを変える':`選んだ${heads}枚を全部ひっくり返す`;$('result').textContent=flipped?`成功！ 両方とも表が${remaining}枚になりました。`:(n===remaining?'今は表の枚数が同じです。裏返した後も確かめよう。':'今は表の枚数が違います。裏返すとどうなるかな？');$('result').className='result'+(flipped?' success':'');$('solutionKey').hidden=!flipped;$('reflection').hidden=!flipped;$('solutionSteps').textContent=`最初の表は${heads}枚。そこで、どれでも${heads}枚を分け、その${heads}枚だけを全部ひっくり返します。`;$('solutionWhy').textContent=`その枚数を分けると、選んだ組の裏と、残りの組の表が同じ数になります。この例ではどちらも${remaining}枚。選んだ組の裏が表に変わるので、そろいます。`;$('pickedRelationship').textContent=`取り出した枚数 − 取り出した表の枚数\n${heads} − ${n} ＝ ${remaining}枚（裏）`;
+$('before').textContent=`${flipped?'裏返した後':'裏返す前'}：選んだ${heads}枚中${picked}枚が表。残り${total-heads}枚中${remaining}枚が表。`;$('leftLabel').textContent=`選んだ${heads}枚中`;$('rightLabel').textContent=`残り${total-heads}枚中`;$('flipInstruction').textContent=flipped?`選んだ${heads}枚だけを裏返しました。残りの${total-heads}枚は動かしていません。`:`このとき、選んだ${heads}枚だけを全部ひっくり返します。残りの${total-heads}枚はそのままです。`;$('left').textContent=picked;$('right').textContent=remaining;$('flip').textContent=flipped?'裏返す前に戻して、組合せを変える':`選んだ${heads}枚を全部ひっくり返す`;$('result').textContent=flipped?`成功！ 両方とも表が${remaining}枚になりました。`:(n===remaining?'今は表の枚数が同じです。裏返した後も確かめよう。':'今は表の枚数が違います。裏返すとどうなるかな？');$('result').className='result'+(flipped?' success':'');$('solutionKey').hidden=!flipped;$('reflection').hidden=!flipped;$('solutionSteps').textContent=`最初に表を向いているコインは${heads}枚。そこで、表裏に関係なく${heads}枚を取り出して残りと分け、その${heads}枚だけを全部裏返します。`;$('solutionWhy').textContent=`裏返す前、取り出した${heads}枚の中に表が${n}枚あったので、裏は${heads}−${n}で${remaining}枚。残りの組の表も、最初の表${heads}枚から${n}枚を引いた${remaining}枚です。取り出した組だけを全部裏返すと、その裏${remaining}枚が表になり、両方の組の表が${remaining}枚でそろいます。`;$('pickedRelationship').textContent=`取り出した枚数 − 取り出した表の枚数\n${heads} − ${n} ＝ ${remaining}枚（裏）`;
 $('remainingRelationship').textContent=`全体の表の枚数 − 取り出した表の枚数\n${heads} − ${n} ＝ ${remaining}枚（表）`;
 $('proofEquality').textContent=`取り出した組：裏${remaining}枚 → 表${remaining}枚\n残りの組：表${remaining}枚 → そのまま${remaining}枚`;
 $('proofPremise').textContent=`ここでも、全体の${total}枚のうち表は${heads}枚のままです。取り出す枚数も${heads}枚に固定します。`;
@@ -144,7 +144,7 @@ document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{
 function hideAnswer(){resetCheck();$('checkDetails').open=false;$('answer').hidden=true;$('answer').open=false}
 function closeHint(){hintStage=0;renderHint();$('hint').hidden=true;$('hintBtn').textContent='ヒントを見る';$('hintBtn').setAttribute('aria-expanded','false')}
 function renderHint(){
-const hints=[['ヒント1　わかっていることを見る','どのコインが表かは不明。でも、最初からわかっている「表の総数」は使えそうです。左右のコインの合計枚数をそろえる必要はありません。'],['ヒント2　裏返すとどうなる？','ある組を全部裏返すと、その組の「裏の枚数」が新しい「表の枚数」になります。取り出した組の裏と、残りの組の表が同じ枚数になるようにできるでしょうか。'],['ヒント3　具体的な手順',`表の総数と同じ${heads}枚を、どれでもよいので取り出します。その${heads}枚を全部裏返します。表を探す必要はありません。実験で理由を確かめよう。`]];
+const hints=[['ヒント1　わかっていることを見る','どのコインが表かはわかりません。でも、最初に表を向いているコインの枚数はわかっています。この数を、分ける枚数に使えないでしょうか。'],['ヒント2　裏返すとどうなる？','取り出した組だけを全部裏返すと、その組の「裏の枚数」が、裏返した後の「表の枚数」になります。裏返す前の「取り出した組の裏」と「残りの組の表」が同じ枚数になるには、何枚を取り出せばよいでしょうか。'],['ヒント3　具体的な手順',`最初に表を向いているコインと同じ${heads}枚を、表裏に関係なく取り出して残りと分けます。その${heads}枚だけを全部裏返します。分ける枚数をそろえると、なぜうまくいくのか、解説で確かめよう。`]];
 $('hintHeading').textContent=hints[hintStage][0];$('hintText').textContent=hints[hintStage][1];$('hintPrev').disabled=hintStage===0;$('hintNext').disabled=hintStage===hints.length-1;$('hintNext').textContent=hintStage===0?'次のヒント（関係を見る）':'次のヒント（手順を見る）';
 }
 for(const [id,delta] of [['hintPrev',-1],['hintNext',1]]){$(id).addEventListener('click',()=>{hintStage=Math.max(0,Math.min(2,hintStage+delta));renderHint()})}
@@ -196,7 +196,7 @@ $('strategyOutcome').className=result.a===result.b?'success':'';$('strategyResul
 }
 function focusResult(){$('strategyResultTitle').focus({preventScroll:true});$('strategyResultTitle').scrollIntoView({block:'start'})}
 function run(){const p=plan();if(!p){$('strategyError').textContent=count()===null?'A組の枚数を、0から100までの整数で入れてください。':'分けたあとに、どの組を裏返すか選んでください。';return}const values=possible(p.k);const previous=trial;const alternatives=values.filter(x=>!previous||x!==previous.x);const pool=alternatives.length?alternatives:values;const x=pool[Math.floor(Math.random()*pool.length)];$('strategyError').textContent='';draw(p,x);focusResult()}
-function verify(){if(!trial)return;const p={k:trial.k,mode:trial.mode},values=possible(p.k);const counter=values.find(x=>{const r=outcomes(p,x);return r.a!==r.b});if(counter!==undefined){draw(p,counter);$('strategyProofText').textContent=`この作戦には、表の枚数がそろわない例があります。たとえば、裏返す前にA組の表が${counter}枚、B組の表が${heads-counter}枚だった場合です。「${modes[p.mode]}」を実行すると、A組の表は${trial.a}枚、B組の表は${trial.b}枚になります。二つの枚数が違うので、この作戦は必ず成功する方法とはいえません。分ける枚数や裏返す組を変えてみよう。`;$('strategyProof').classList.toggle('verified',false);}else{$('strategyProofText').textContent=`A組に入る表のコインの枚数について、起こり得る${values.length}通りをすべて確かめました。この作戦は、表のコインがどう分かれても、表を向いているコインの枚数がそろいます。${p.k}枚と${total-p.k}枚に分けて「${modes[p.mode]}」で成功です。理由も確かめてみよう。`;$('strategyProof').classList.toggle('verified',true);$('strategyExplain').hidden=false}$('strategyProof').hidden=false;$('strategyProof').focus({preventScroll:true});$('strategyProof').scrollIntoView({block:'nearest'})}
+function verify(){if(!trial)return;const p={k:trial.k,mode:trial.mode},values=possible(p.k);const counter=values.find(x=>{const r=outcomes(p,x);return r.a!==r.b});if(counter!==undefined){draw(p,counter);$('strategyProofText').textContent=`この作戦には、表の枚数がそろわない例があります。たとえば、裏返す前にA組の表が${counter}枚、B組の表が${heads-counter}枚だった場合です。「${modes[p.mode]}」を実行すると、A組の表は${trial.a}枚、B組の表は${trial.b}枚になります。二つの枚数が違うので、この作戦は必ず成功する方法とはいえません。分ける枚数や裏返す組を変えてみよう。`;$('strategyProof').classList.toggle('verified',false);}else{$('strategyProofText').textContent=`A組に入る表のコインの枚数について、起こり得る${values.length}通りをすべて確かめました。この作戦は、表のコインがどう分かれても成功します。裏返す組の枚数は、最初に表を向いているコインと同じ${heads}枚です。その組だけを全部裏返すと、両方の組の表の枚数がそろいます。なぜこの枚数なのか、理由も確かめてみよう。`;$('strategyProof').classList.toggle('verified',true);$('strategyExplain').hidden=false}$('strategyProof').hidden=false;$('strategyProof').focus({preventScroll:true});$('strategyProof').scrollIntoView({block:'nearest'})}
 for(const b of document.querySelectorAll('.strategy-action'))b.addEventListener('click',()=>{mode=b.dataset.mode;updatePlan()});
 $('strategyCount').addEventListener('input',updatePlan);
 $('strategyCount').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();run()}});
@@ -204,7 +204,7 @@ function retry(){clearResult();$('strategyEditNote').textContent='前の作戦�
 $('strategyRetry').addEventListener('click',retry);
 $('strategyRun').addEventListener('click',run);$('strategyAnother').addEventListener('click',run);$('strategyVerify').addEventListener('click',verify);
 $('try').addEventListener('click',()=>{$('strategyBridgeNote').hidden=true});
-$('strategyExplain').addEventListener('click',()=>{if(!trial||$('strategyExplain').hidden)return;const group=trial.mode==='a'?'A組':'B組';const size=trial.mode==='a'?trial.k:total-trial.k;const originalHeads=trial.mode==='a'?trial.x:heads-trial.x;$('try').click();$('range').value=String(originalHeads);$('range').dispatchEvent(new Event('input'));$('flip').click();$('strategyBridgeNote').textContent=`あなたの作戦で裏返したのは${group}の${size}枚です。この${size}枚を「選んだ組」として、実行した結果を引き継いでいます。下の「正解のポイント」で理由を確かめよう。`;$('strategyBridgeNote').hidden=false});
+$('strategyExplain').addEventListener('click',()=>{if(!trial||$('strategyExplain').hidden)return;const group=trial.mode==='a'?'A組':'B組';const size=trial.mode==='a'?trial.k:total-trial.k;const originalHeads=trial.mode==='a'?trial.x:heads-trial.x;$('try').click();$('range').value=String(originalHeads);$('range').dispatchEvent(new Event('input'));$('flip').click();$('strategyBridgeNote').textContent=`あなたの作戦で裏返したのは${group}の${size}枚です。この${size}枚を「選んだ組」として、実行した結果を引き継いでいます。最初の表と同じ${size}枚を分け、その組だけを全部裏返したことがポイントです。下で、その理由を確かめよう。`;$('strategyBridgeNote').hidden=false});
 function reset(){$('strategyBridgeNote').hidden=true;$('strategyCount').value='';mode=null;updatePlan()}
 $('start').addEventListener('click',reset);
 reset();
