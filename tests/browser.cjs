@@ -27,6 +27,11 @@ const fs = require('node:fs');
   assert.equal(await page.locator(`[data-total="${total}"]`).getAttribute('aria-pressed'),'true');
   assert.match(await page.locator('#question').textContent(),new RegExp(`${total}枚`));
   await page.locator('#hintBtn').click(); assert.equal(await page.locator('#hint').isVisible(),true);
+  assert.match(await page.locator('#hintHeading').textContent(),/ヒント1/);
+  assert.equal(await page.locator('#hintPrev').isDisabled(),true);
+  await page.locator('#hintNext').click(); assert.match(await page.locator('#hintHeading').textContent(),/ヒント2/);
+  await page.locator('#hintNext').click(); assert.match(await page.locator('#hintText').textContent(),new RegExp(`${h}枚`));
+  assert.equal(await page.locator('#hintNext').isDisabled(),true);
   await page.locator('#hintBtn').click(); assert.equal(await page.locator('#hint').isVisible(),false);
   await page.locator('#try').click();
   for(let n=0;n<=h;n++) {
@@ -47,9 +52,14 @@ const fs = require('node:fs');
    assert.equal(await page.locator('#answer p').first().isVisible(),false);
    await page.locator('#answer summary').click();
    assert.equal(await page.locator('#explanation').isVisible(),true);
+   await page.locator('#checkAnswer').click(); assert.match(await page.locator('#checkResult').textContent(),/整数/);
+   await page.locator('#checkTails').fill(String(h-n));
+   await page.locator('#checkRemaining').fill(String(h-n));
+   await page.locator('#checkAnswer').click(); assert.match(await page.locator('#checkResult').textContent(),/一致/);
    await page.locator('#flip').click();
    assert.equal(+(await page.locator('#left').textContent()),n);
    assert.equal(await page.locator('#answer').isVisible(),false);
+   assert.equal(await page.locator('#checkTails').inputValue(),'');
    assert.deepEqual(await page.locator('.coin').allTextContents(),beforeCoins.map(c=>c.face));
    assert.equal(await page.locator('.coin').evaluateAll(coins=>coins.every((c,i)=>c===window.trackedCoins[i])),true);cases++;
   }
