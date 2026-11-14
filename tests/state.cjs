@@ -40,7 +40,7 @@ class Node {
  focus(){document.activeElement=this}
  scrollIntoView(){}
  checkValidity(){const n=Number(this.value);return this.value!==''&&Number.isInteger(n)&&n>=Number(this.min)&&n<=Number(this.max)}
- set innerHTML(markup){this.children=Array.from(markup.matchAll(/<span class="coin"><\/span>/g),()=>new Node('span',{class:'coin'}))}
+ set innerHTML(markup){this.children=Array.from(markup.matchAll(/<span class="(coin|check-coin)"><\/span>/g),match=>new Node('span',{class:match[1]}))}
 }
 const ids=new Map(),choices=[];
 for(const item of fixture.nodes){const el=new Node(item.tag,item.attrs);if(el.id){assert.ok(!ids.has(el.id),'duplicate id');ids.set(el.id,el)}if(item.attrs['data-total'])choices.push(el)}
@@ -67,13 +67,24 @@ for(const choice of choices){
   el('flip').click();assert.equal(el('answer').hidden,false);
   assert.equal(Number(el('left').textContent),c.after);assert.equal(Number(el('right').textContent),c.remaining);
   coins.forEach((coin,i)=>{assert.equal(el('coins').children[i],coin);assert.equal(coin.textContent,faces[i]==='表'?'裏':'表')});
-  el('checkAnswer').click();assert.match(el('checkResult').textContent,/整数/);
-  for(const invalid of ['-1','0.5',String(c.heads+1)]){
-   el('checkTails').value=invalid;el('checkRemaining').value=String(c.remaining);el('checkAnswer').click();assert.match(el('checkResult').textContent,/整数/);
-  }
-  el('checkTails').value=String(c.after===0?1:0);el('checkAnswer').click();assert.match(el('checkResult').textContent,/もう一度/);
-  el('checkTails').value=String(c.after);el('checkRemaining').value=String(c.remaining);el('checkAnswer').click();assert.match(el('checkResult').textContent,/一致/);
-  el('flip').click();assert.equal(el('answer').hidden,true);assert.equal(el('checkTails').value,'');assert.equal(el('checkResult').textContent,'');
+  assert.equal(el('checkStage').textContent,'裏返す前');
+  assert.equal(Number(el('checkOtherCount').textContent),c.remaining);
+  const checkCoins=[...el('checkPicked').children];const checkFaces=checkCoins.map(x=>x.textContent);
+  assert.equal(checkFaces.filter(x=>x==='表').length,c.before);
+  assert.equal(checkCoins.filter(x=>x.classList.contains('was-tail')).length,c.after);
+  assert.equal(el('checkReset').hidden,true);
+  el('checkFlip').click();assert.match(el('checkResult').textContent,/そろいます/);
+  assert.equal(el('checkStage').textContent,'裏返した後');
+  assert.equal(el('checkFlip').disabled,true);assert.equal(el('checkReset').hidden,false);
+  assert.equal(checkCoins.filter(x=>x.textContent==='表').length,c.after);
+  assert.equal(Number(el('checkOtherCount').textContent),c.remaining);
+  checkCoins.forEach((coin,i)=>{assert.equal(el('checkPicked').children[i],coin);assert.equal(coin.textContent,checkFaces[i]==='表'?'裏':'表')});
+  assert.equal(el('checkPickedGroup').classList.contains('matched'),true);
+  el('checkReset').click();assert.equal(el('checkStage').textContent,'裏返す前');
+  assert.equal(el('checkFlip').disabled,false);assert.equal(el('checkPickedGroup').classList.contains('matched'),false);
+  assert.deepEqual(checkCoins.map(x=>x.textContent),checkFaces);
+  el('checkFlip').click();
+  el('flip').click();assert.equal(el('answer').hidden,true);assert.equal(el('checkStage').textContent,'裏返す前');assert.equal(el('checkResult').textContent,'');
   assert.deepEqual(coins.map(x=>x.textContent),faces);
  }
  el('reset').click();assert.equal(document.activeElement.id,'range');assert.equal(el('hint').hidden,true);assert.match(el('hintHeading').textContent,/ヒント1/);
@@ -83,4 +94,4 @@ assert.match(html,/次に進むと、解き方の手順/);
 assert.match(html,/同じ考え方を、枚数を変えて/);
 assert.match(html,/見ても触っても/);
 assert.equal((html.match(/<script>/g)||[]).length,1);
-console.log(`PASS: ${fixture.cases.length} Python-derived configurations; stable coin identity and reversal; 3-stage hints; answer validation; reset/back. Simulated DOM only.`);
+console.log(`PASS: ${fixture.cases.length} Python-derived configurations; stable coin identity and reversal; 3-stage hints; visual comparison and highlighted tails; reset/back. Simulated DOM only.`);

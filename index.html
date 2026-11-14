@@ -12,7 +12,7 @@
 .intro .tap-caption{margin:0 0 24px;font-size:1rem}.intro .preview-question{margin:16px 0}
 .korostar-start img{display:block;width:100%;height:100%;object-fit:contain}
 
-.hint-heading{font-weight:800;margin-top:0}.hint-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hint-actions button{background:#fff;border:1px solid #b78519;border-radius:10px;padding:12px;color:#513b0a}.relationship{background:#eef5ff;padding:14px;border-radius:12px;margin:12px 0}.relationship p{margin:6px 0}.check-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.check-inputs label{display:grid;gap:8px}.check-inputs input{width:100%;min-height:48px;border:1px solid #8798af;border-radius:8px;padding:10px;font-size:1rem}.check-result{min-height:3.5em}.phase{display:inline-block;font-size:.9rem;padding:5px 10px;border-radius:20px;background:#e8effa;color:#214b80}.hint-actions button:disabled{opacity:.55}.practice{border-top:1px solid #ccd8e7;margin-top:18px;padding-top:12px}.source-note{font-size:.9rem}a{color:#174a9b}input:focus-visible{outline:3px solid #ffad32;outline-offset:2px}
+.hint-heading{font-weight:800;margin-top:0}.hint-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hint-actions button{background:#fff;border:1px solid #b78519;border-radius:10px;padding:12px;color:#513b0a}.relationship{background:#eef5ff;padding:14px;border-radius:12px;margin:12px 0}.relationship p{margin:6px 0}.check-groups{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:14px 0}.check-group{border:3px solid #b7c6d9;background:#f4f7fb;border-radius:12px;padding:12px;min-width:0}.check-group h4{margin:0 0 10px;font-size:1rem}.check-group .phase{font-size:.8rem;padding:5px 7px}.check-coins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:14px 0}.check-coin{aspect-ratio:1;border-radius:50%;background:#d9e0eb;border:2px solid #a8b4c7;display:grid;place-items:center;font-size:.9rem;font-weight:800}.check-coin.is-head{background:#f5cf6a;border-color:#c4942b;color:#563e0c}.check-coin.was-tail{outline:3px solid #1767d1;outline-offset:0}.check-counts{font-weight:800}.check-total{font-size:1.2rem;margin:12px 0}.check-total strong{font-size:2.5rem;color:#174a9b;margin-right:4px}.check-group.matched{border:3px solid #08744c}.check-group.matched .check-counts{color:#08744c}.check-other-label{margin-top:20px}@media(max-width:350px){.check-group{padding:8px}.check-group h4{font-size:.9rem}.check-coin{font-size:.8rem}.check-groups{gap:8px}}.check-result{min-height:3.5em}.phase{display:inline-block;font-size:.9rem;padding:5px 10px;border-radius:20px;background:#e8effa;color:#214b80}.hint-actions button:disabled{opacity:.55}.practice{border-top:1px solid #ccd8e7;margin-top:18px;padding-top:12px}.source-note{font-size:.9rem}a{color:#174a9b}input:focus-visible{outline:3px solid #ffad32;outline-offset:2px}
 </style></head><body><main>
 <section class="card intro" aria-labelledby="title">
 <div class="eyebrow">見えなくても、そろえられる？</div>
@@ -38,10 +38,17 @@
 <div class="experiment-actions"><details id="answer" hidden><summary>なぜ同じになる？ 解説を見る</summary><p id="explanation"></p>
 <div class="relationship"><p><strong>比べるのは、この二つ</strong></p><p id="pickedRelationship"></p><p id="remainingRelationship"></p></div><p>どのコインが表かを知る必要はありません。<strong>表の総数と同じ枚数を取り出し、取り出したコインを全部裏返す</strong>と、必ず左右の表の枚数が同じになります。</p>
 <details><summary>文字で「いつでも」を確かめる</summary><p>全体の表が H 枚で、H 枚を取り出し、その中の表を x 枚とします。残りの組の表は H − x 枚です。取り出した組の裏も H − x 枚なので、全部裏返すと表は H − x 枚。どちらも一致します。</p></details>
-<div class="practice"><h3>関係を確かめてみよう</h3><p id="checkQuestion"></p>
-<div class="check-inputs"><label for="checkTails">取り出した組の裏は<input id="checkTails" type="number" inputmode="numeric" min="0" step="1" placeholder="枚数" autocomplete="off"></label><label for="checkRemaining">残りの組の表は<input id="checkRemaining" type="number" inputmode="numeric" min="0" step="1" placeholder="枚数" autocomplete="off"></label></div>
-<button class="secondary" id="checkAnswer" type="button">考えた枚数を確かめる</button><p id="checkResult" class="check-result" role="status" aria-live="polite"></p>
-<p>二つの枚数が同じになる理由を、自分の言葉でも説明してみよう。</p></div>
+<section class="practice" aria-labelledby="checkTitle"><h3 id="checkTitle">裏が表に変わるところを見よう</h3>
+<p><strong>ここでは、なぜ表の枚数がそろうのかを図で確かめます。</strong>まず裏返す前の状態に戻して見てみよう。</p>
+<p id="checkQuestion"></p><p class="muted" id="checkLegend">枠付きの「裏」に注目。裏返すと、何に変わるかな？</p>
+<div class="check-groups">
+<div class="check-group" id="checkPickedGroup"><h4 id="checkPickedTitle"></h4><p id="checkStage" class="phase"></p><div id="checkPicked" class="check-coins" role="img"></div><p id="checkPickedCounts" class="check-counts"></p></div>
+<div class="check-group" id="checkOtherGroup"><h4 id="checkOtherTitle"></h4><p class="phase">こちらは動かしません</p><p class="check-other-label">残りの組の表</p><p class="check-total"><strong id="checkOtherCount"></strong>枚</p><p>この枚数と、そろうかな？</p></div>
+</div>
+<button class="primary" id="checkFlip" type="button">取り出した組だけを裏返して見る</button>
+<p id="checkResult" class="check-result" role="status" aria-live="polite" aria-atomic="true"></p>
+<button class="secondary" id="checkReset" type="button" hidden>裏返す前に戻して、もう一度見る</button>
+<p>別の枚数でも確かめたいときは、「枚数を変えて応用する」へ進もう。</p></section>
 <section class="practice" aria-labelledby="thinkingTitle"><h3 id="thinkingTitle">この問題で使った考え方</h3>
 <p>この問題のポイントは、<strong>見えないものを探す代わりに、わかっている数の関係を使うこと</strong>です。</p>
 <p><strong>1．使える情報を整理する力</strong><br>どのコインが表かは不明でも、表の総数はわかっています。わかることと、わからないことを分けて考えました。</p>
@@ -58,11 +65,11 @@
 <noscript><p class="card">このクイズで遊ぶには、ブラウザのJavaScriptを有効にしてください。</p></noscript>
 <p class="foot">登録不要・無料。操作はこのページの中だけで完結します。</p></main>
 <script>
-(()=>{'use strict';const $=id=>document.getElementById(id);let total=100,heads=10,flipped=false,hintStage=0;const range=$('range');function render(){renderHint();const n=Number(range.value),remaining=heads-n,picked=flipped?heads-n:n;$('question').textContent=`コインが${total}枚あります。そのうち、表は${heads}枚です。残りはすべて裏です。`;$('instruction').textContent=`どれが表かわからないまま、${heads}枚を適当に取り出します。取り出した${heads}枚の表の数をスライダーで変えてみましょう。`;$('count').textContent=n;range.setAttribute('aria-valuetext',`表${n}枚、裏${heads-n}枚`);$('decrease').disabled=n===0;$('increase').disabled=n===heads;$('coins').setAttribute('aria-label',`取り出した${heads}枚：表${picked}枚、裏${heads-picked}枚。${flipped?'裏返した後':'裏返す前'}`);// Keep each coin in its own position: flipping changes its face, never its order.
+(()=>{'use strict';const $=id=>document.getElementById(id);let total=100,heads=10,flipped=false,hintStage=0,checkFlipped=false;const range=$('range');function render(){renderHint();const n=Number(range.value),remaining=heads-n,picked=flipped?heads-n:n;$('question').textContent=`コインが${total}枚あります。そのうち、表は${heads}枚です。残りはすべて裏です。`;$('instruction').textContent=`どれが表かわからないまま、${heads}枚を適当に取り出します。取り出した${heads}枚の表の数をスライダーで変えてみましょう。`;$('count').textContent=n;range.setAttribute('aria-valuetext',`表${n}枚、裏${heads-n}枚`);$('decrease').disabled=n===0;$('increase').disabled=n===heads;$('coins').setAttribute('aria-label',`取り出した${heads}枚：表${picked}枚、裏${heads-picked}枚。${flipped?'裏返した後':'裏返す前'}`);// Keep each coin in its own position: flipping changes its face, never its order.
 const coins=$('coins');
 if(coins.children.length!==heads){coins.innerHTML=Array.from({length:heads},()=>'<span class="coin"></span>').join('')}
 Array.from(coins.children).forEach((coin,i)=>{const isHead=flipped?i>=n:i<n;coin.classList.toggle('head',isHead);coin.textContent=isHead?'表':'裏'});
-$('before').textContent=`裏返す前：取り出した${heads}枚は表${n}枚・裏${heads-n}枚。残り${total-heads}枚には表${remaining}枚。`;$('left').textContent=picked;$('right').textContent=remaining;$('flip').textContent=flipped?'元に戻す':'全部裏返してみる！';$('result').textContent=flipped?`成功！ 両方とも表が${remaining}枚になりました。`:(n===remaining?'今は表の枚数が同じです。裏返した後も確かめよう。':'今は表の枚数が違います。裏返すとどうなるかな？');$('result').className='result'+(flipped?' success':'');$('pickedRelationship').textContent=`取り出した組の裏 ${heads-n}枚 → 裏返す → 表 ${heads-n}枚`;$('remainingRelationship').textContent=`残りの組の表 ${remaining}枚 → そのまま → 表 ${remaining}枚`;$('checkQuestion').textContent=`裏返す前に戻って考えよう。全体の表は${heads}枚。取り出した${heads}枚のうち表が${n}枚なら、次の枚数は？`;$('checkTails').max=String(heads);$('checkRemaining').max=String(heads);$('explanation').textContent=`取り出した${heads}枚に表が${n}枚あるとすると、裏は${heads-n}枚。残りのコインには表が${heads-n}枚あります。取り出したコインをすべて裏返すと、元の裏${heads-n}枚が表になるので、必ず一致します。`}
+$('before').textContent=`裏返す前：取り出した${heads}枚は表${n}枚・裏${heads-n}枚。残り${total-heads}枚には表${remaining}枚。`;$('left').textContent=picked;$('right').textContent=remaining;$('flip').textContent=flipped?'元に戻す':'全部裏返してみる！';$('result').textContent=flipped?`成功！ 両方とも表が${remaining}枚になりました。`:(n===remaining?'今は表の枚数が同じです。裏返した後も確かめよう。':'今は表の枚数が違います。裏返すとどうなるかな？');$('result').className='result'+(flipped?' success':'');$('pickedRelationship').textContent=`取り出した組の裏 ${heads-n}枚 → 裏返す → 表 ${heads-n}枚`;$('remainingRelationship').textContent=`残りの組の表 ${remaining}枚 → そのまま → 表 ${remaining}枚`;renderCheck();$('explanation').textContent=`取り出した${heads}枚に表が${n}枚あるとすると、裏は${heads-n}枚。残りのコインには表が${heads-n}枚あります。取り出したコインをすべて裏返すと、元の裏${heads-n}枚が表になるので、必ず一致します。`}
 function setProblem(t,h){total=t;heads=h;flipped=false;hideAnswer();closeHint();$('experiment').hidden=true;range.max=String(h);range.value=String(Math.floor(h/3));document.querySelectorAll('.choice').forEach(b=>{const selected=Number(b.dataset.total)===t;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))});render()}
 document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>setProblem(Number(b.dataset.total),Number(b.dataset.heads))));range.addEventListener('input',()=>{flipped=false;hideAnswer();render()});$('flip').addEventListener('click',()=>{flipped=!flipped;if(flipped){$('answer').hidden=false}else{hideAnswer()}render()});$('reset').addEventListener('click',()=>{flipped=false;hideAnswer();closeHint();range.value=String(Math.floor(heads/3));render();$('range').focus()});$('hintBtn').addEventListener('click',()=>{const show=$('hint').hidden;$('hint').hidden=!show;$('hintBtn').textContent=show?'ヒントを閉じる':'ヒントを見る';$('hintBtn').setAttribute('aria-expanded',String(show))});
 function hideAnswer(){resetCheck();$('answer').hidden=true;$('answer').open=false}
@@ -72,14 +79,27 @@ const hints=[['ヒント1　わかっていることを見る','どのコイン�
 $('hintHeading').textContent=hints[hintStage][0];$('hintText').textContent=hints[hintStage][1];$('hintPrev').disabled=hintStage===0;$('hintNext').disabled=hintStage===hints.length-1;$('hintNext').textContent=hintStage===0?'次のヒント（関係を見る）':'次のヒント（手順を見る）';
 }
 for(const [id,delta] of [['hintPrev',-1],['hintNext',1]]){$(id).addEventListener('click',()=>{hintStage=Math.max(0,Math.min(2,hintStage+delta));renderHint()})}
-function resetCheck(){for(const id of ['checkTails','checkRemaining'])$(id).value='';$('checkResult').textContent='';}
-for(const id of ['checkTails','checkRemaining'])$(id).addEventListener('input',()=>{$('checkResult').textContent=''});
-$('checkAnswer').addEventListener('click',()=>{
-const inputs=[$('checkTails'),$('checkRemaining')];const values=inputs.map(el=>el.value.trim());
-if(values.some(v=>v==='')||inputs.some(el=>!el.checkValidity())){$('checkResult').textContent=`両方に、0から${heads}までの整数を入れてみよう。`;return}
-const expected=heads-Number(range.value);const correct=values.every(v=>Number(v)===expected);
-$('checkResult').textContent=correct?`どちらも${expected}枚です。取り出した組の裏が表になるので、裏返した後も一致します。`:'全体の表から、取り出した表を引くと残りの表。取り出した枚数から表を引くと、その組の裏。もう一度比べてみよう。';
-});
+function renderCheck(){
+const n=Number(range.value),otherHeads=heads-n,pickedHeads=checkFlipped?otherHeads:n;
+$('checkQuestion').textContent=`全体の表は${heads}枚。${heads}枚を取り出すと、その中に表が${n}枚、裏が${otherHeads}枚ありました。`;
+$('checkPickedTitle').textContent=`取り出した組（${heads}枚）`;
+$('checkOtherTitle').textContent=`残りの組（${total-heads}枚）`;
+$('checkStage').textContent=checkFlipped?'裏返した後':'裏返す前';
+$('checkLegend').textContent=otherHeads===0?(checkFlipped?'裏がなかったので、裏返した後の表は0枚です。':'今回は取り出した組が全部表。裏返すと、表は何枚になるかな？'):(checkFlipped?'枠付きの「裏」が、同じ場所で「表」に変わりました。':'枠付きの「裏」に注目。裏返すと、何に変わるかな？');
+const coins=$('checkPicked');
+if(coins.children.length!==heads)coins.innerHTML=Array.from({length:heads},()=>'<span class="check-coin"></span>').join('');
+Array.from(coins.children).forEach((coin,i)=>{const isHead=checkFlipped?i>=n:i<n;coin.classList.toggle('is-head',isHead);coin.classList.toggle('was-tail',i>=n);coin.textContent=isHead?'表':'裏'});
+coins.setAttribute('aria-label',`${checkFlipped?'裏返した後':'裏返す前'}の取り出した組。表${pickedHeads}枚、裏${heads-pickedHeads}枚。枠付きは裏返す前に裏だった${otherHeads}枚です。`);
+$('checkPickedCounts').textContent=`表 ${pickedHeads}枚 ／ 裏 ${heads-pickedHeads}枚`;
+$('checkOtherCount').textContent=otherHeads;
+for(const node of [$('checkPickedGroup'),$('checkOtherGroup')])node.classList.toggle('matched',checkFlipped);
+$('checkFlip').disabled=checkFlipped;$('checkFlip').textContent=checkFlipped?'裏返しました':'取り出した組だけを裏返して見る';
+$('checkReset').hidden=!checkFlipped;
+$('checkResult').textContent=checkFlipped?(otherHeads===0?'取り出した組は全部表だったので、裏返すと表は0枚。残りの組の表も0枚なので、表の枚数がそろいます。':`取り出した組の裏${otherHeads}枚が表に変わりました。残りの組の表も${otherHeads}枚なので、表の枚数がそろいます。`):'';
+}
+function resetCheck(){checkFlipped=false;renderCheck()}
+$('checkFlip').addEventListener('click',()=>{checkFlipped=true;renderCheck()});
+$('checkReset').addEventListener('click',resetCheck);
 function moveTo(id){const target=$(id);target.focus({preventScroll:true});target.scrollIntoView({block:'start'})}
 function start(){$('puzzle').hidden=false;moveTo('problemTitle')}
 $('start').addEventListener('click',start);$('coinStart').addEventListener('click',start);
