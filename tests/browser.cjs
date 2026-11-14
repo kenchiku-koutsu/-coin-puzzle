@@ -31,7 +31,7 @@ async function openExplanation(page){if(!await page.locator('.strategy-spoiler')
  await page.locator('#strategyVerify').click();assert.match(await page.locator('#strategyProofText').textContent(),/反例/);
  await page.locator('#strategyProofRetry').click();assert.equal(await page.locator('#strategyResultPanel').isVisible(),false);assert.equal(await page.locator('#strategyCount').inputValue(),'50');assert.equal(await page.locator(':focus').getAttribute('id'),'strategyCount');
  await page.locator('#strategyCount').fill('10');await page.locator('#strategyActionA').click();await page.locator('#strategyRun').click();
- await page.locator('#strategyVerify').click();assert.match(await page.locator('#strategyProofText').textContent(),/どの配置でも表の枚数がそろいます/);
+ await page.locator('#strategyVerify').click();assert.equal(await page.locator('#strategyProof').evaluate(el=>el.classList.contains('verified')),true);
  await page.locator('#strategyExplain').click();assert.equal(await page.locator('#experiment').isVisible(),true);
  await page.locator('#back').click();await page.locator('#start').click();assert.equal(await page.locator('#strategyCount').inputValue(),'');
  assert.equal(await page.locator('.choices').isVisible(),false);
