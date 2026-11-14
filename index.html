@@ -52,9 +52,9 @@
 <div class="strategy-group"><h4 id="strategyGroupBTitle"></h4><p id="strategyBeforeB"></p><p id="strategyAfterB" class="strategy-after"></p><details><summary>B組のコインを見る</summary><div id="strategyCoinsB" class="strategy-coins" role="img"></div></details></div>
 </div>
 <p id="strategyOutcome" role="status" aria-live="polite" aria-atomic="true"></p><button class="primary" id="strategyRetry" type="button">分ける枚数・裏返す組を変えてやり直す</button><p class="muted">枚数を入力し、裏返す組を選ぶ画面に戻ります。</p>
-<p class="muted">一度そろっても、どの配置でも成功するとは限りません。同じ作戦を、別の表の入り方でも試してみよう。</p>
-<button class="secondary" id="strategyAnother" type="button">同じ作戦で、別の配置を試す</button>
-<button class="secondary" id="strategyVerify" type="button">どの配置でも成功するか確かめる</button>
+<p class="muted">今回はそろっても、A組とB組に入る表のコインの枚数が変わると、そろわないことがあります。</p>
+<button class="secondary" id="strategyAnother" type="button">表の分かれ方を変えて、同じ作戦を試す</button>
+<button class="secondary" id="strategyVerify" type="button">表がどう分かれても成功するか確かめる</button>
 <div id="strategyProof" class="strategy-proof" hidden><h4>作戦の検証結果</h4><p id="strategyProofText" role="status" aria-live="polite"></p><button class="primary" id="strategyProofRetry" type="button" hidden>分ける枚数・裏返す組を変えてやり直す</button><button class="primary" id="strategyExplain" type="button" hidden>成功する理由を、解説で確かめる</button></div>
 </section>
 <p class="strategy-hint-intro">行き詰まったら、ヒントを一つずつ見られます。</p>
@@ -167,12 +167,12 @@ function draw(p,x){const result=outcomes(p,x);trial={...p,x,...result};$('strate
 $('strategyTrialSummary').textContent=`表裏を隠したまま、${p.k}枚と${total-p.k}枚に分けて「${modes[p.mode]}」を実行しました。ここで初めて表裏を見ます。`;
 for(const [id,size,n,flip] of [['strategyCoinsA',p.k,x,p.mode==='a'||p.mode==='both'],['strategyCoinsB',total-p.k,heads-x,p.mode==='b'||p.mode==='both']]){
 const faces=shuffled(size,n);const after=faces.map(v=>flip?!v:v);const el=$(id);el.innerHTML=after.map(v=>`<span class="strategy-token${v?' token-head':''}">${v?'表':'裏'}</span>`).join('');el.setAttribute('aria-label',`実行後の${size}枚。表${after.filter(Boolean).length}枚。裏${after.filter(v=>!v).length}枚。`)}
-$('strategyOutcome').textContent=result.a===result.b?`この配置では成功！ 表はどちらも${result.a}枚です。まだ、どの配置でも成功するとは確認していません。`:`この配置ではそろいません。A組の表は${result.a}枚、B組の表は${result.b}枚です。作戦を変えるか、別の配置でも調べてみよう。`;
+$('strategyOutcome').textContent=result.a===result.b?`今回は成功！ 表はどちらも${result.a}枚です。表のコインの分かれ方が変わっても、そろうか確かめてみよう。`:`今回はそろいません。A組の表は${result.a}枚、B組の表は${result.b}枚です。作戦を変えるか、表のコインの分かれ方を変えて試してみよう。`;
 $('strategyOutcome').className=result.a===result.b?'success':'';$('strategyResultPanel').hidden=false;$('strategyProofRetry').hidden=true;$('strategyProof').hidden=true;$('strategyExplain').hidden=true;
 }
 function focusResult(){$('strategyResultTitle').focus({preventScroll:true});$('strategyResultTitle').scrollIntoView({block:'start'})}
 function run(){const p=plan();if(!p){$('strategyError').textContent=count()===null?'A組の枚数を、0から100までの整数で入れてください。':'分けたあとに、どの組を裏返すか選んでください。';return}const values=possible(p.k);const previous=trial;const alternatives=values.filter(x=>!previous||x!==previous.x);const pool=alternatives.length?alternatives:values;const x=pool[Math.floor(Math.random()*pool.length)];$('strategyError').textContent='';draw(p,x);focusResult()}
-function verify(){if(!trial)return;const p={k:trial.k,mode:trial.mode},values=possible(p.k);const counter=values.find(x=>{const r=outcomes(p,x);return r.a!==r.b});if(counter!==undefined){draw(p,counter);$('strategyProofText').textContent=`この作戦は、どの配置でも成功する方法ではありません。上の図が反例です。A組に表が${counter}枚入った場合には、表の枚数がそろいません。枚数や裏返す組を変えて考えてみよう。`;$('strategyProof').classList.toggle('verified',false);$('strategyProofRetry').hidden=false}else{$('strategyProofText').textContent=`A組に入る表の枚数について、起こり得る${values.length}通りをすべて確かめました。この作戦は、どの配置でも表の枚数がそろいます。${p.k}枚と${total-p.k}枚に分けて「${modes[p.mode]}」で成功です。理由も確かめてみよう。`;$('strategyProof').classList.toggle('verified',true);$('strategyProofRetry').hidden=true;$('strategyExplain').hidden=false}$('strategyProof').hidden=false}
+function verify(){if(!trial)return;const p={k:trial.k,mode:trial.mode},values=possible(p.k);const counter=values.find(x=>{const r=outcomes(p,x);return r.a!==r.b});if(counter!==undefined){draw(p,counter);$('strategyProofText').textContent=`この作戦では、表のコインの分かれ方によって、そろわないことがあります。上の図が反例です。A組に表が${counter}枚入った場合には、表の枚数がそろいません。枚数や裏返す組を変えて考えてみよう。`;$('strategyProof').classList.toggle('verified',false);$('strategyProofRetry').hidden=false}else{$('strategyProofText').textContent=`A組に入る表のコインの枚数について、起こり得る${values.length}通りをすべて確かめました。この作戦は、表のコインがどう分かれても、表を向いているコインの枚数がそろいます。${p.k}枚と${total-p.k}枚に分けて「${modes[p.mode]}」で成功です。理由も確かめてみよう。`;$('strategyProof').classList.toggle('verified',true);$('strategyProofRetry').hidden=true;$('strategyExplain').hidden=false}$('strategyProof').hidden=false}
 for(const b of document.querySelectorAll('.strategy-action'))b.addEventListener('click',()=>{mode=b.dataset.mode;updatePlan()});
 $('strategyCount').addEventListener('input',updatePlan);
 $('strategyCount').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();run()}});
