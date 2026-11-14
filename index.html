@@ -13,31 +13,39 @@
 .korostar-start img{display:block;width:100%;height:100%;object-fit:contain}
 
 .hint-heading{font-weight:800;margin-top:0}.hint-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hint-actions button{background:#fff;border:1px solid #b78519;border-radius:10px;padding:12px;color:#513b0a}.relationship{background:#eef5ff;padding:14px;border-radius:12px;margin:12px 0}.relationship p{margin:6px 0}.check-groups{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:14px 0}.check-group{border:3px solid #b7c6d9;background:#f4f7fb;border-radius:12px;padding:12px;min-width:0}.check-group h4{margin:0 0 10px;font-size:1rem}.check-group .phase{font-size:.8rem;padding:5px 7px}.check-coins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:14px 0}.check-coin{aspect-ratio:1;border-radius:50%;background:#d9e0eb;border:2px solid #a8b4c7;display:grid;place-items:center;font-size:.9rem;font-weight:800}.check-coin.is-head{background:#f5cf6a;border-color:#c4942b;color:#563e0c}.check-coin.was-tail{outline:3px solid #1767d1;outline-offset:0}.check-counts{font-weight:800}.check-total{font-size:1.2rem;margin:12px 0}.check-total strong{font-size:2.5rem;color:#174a9b;margin-right:4px}.check-group.matched{border:3px solid #08744c}.check-group.matched .check-counts{color:#08744c}.check-other-label{margin-top:20px}@media(max-width:350px){.check-group{padding:8px}.check-group h4{font-size:.9rem}.check-coin{font-size:.8rem}.check-groups{gap:8px}}.check-result{min-height:3.5em}.phase{display:inline-block;font-size:.9rem;padding:5px 10px;border-radius:20px;background:#e8effa;color:#214b80}.hint-actions button:disabled{opacity:.55}.practice{border-top:1px solid #ccd8e7;margin-top:18px;padding-top:12px}.source-note{font-size:.9rem}a{color:#174a9b}input:focus-visible{outline:3px solid #ffad32;outline-offset:2px}
-.coin{min-width:0;min-height:44px;padding:0;cursor:pointer}.coin:disabled{opacity:1;cursor:default}.stat b{display:inline;font-size:1.65rem;margin:0 3px}.stat span{font-size:1rem}.coin:focus-visible{outline:3px solid #1767d1;outline-offset:2px}</style></head><body><main>
+.coin{min-width:0;min-height:44px;padding:0;cursor:pointer}.coin:disabled{opacity:1;cursor:default}.stat b{display:inline;font-size:1.65rem;margin:0 3px}.stat span{font-size:1rem}.coin:focus-visible{outline:3px solid #1767d1;outline-offset:2px}.problem-statement{text-align:left;background:#fff;color:#18263b;border-radius:14px;padding:18px;margin:20px 0}.problem-statement h2{font-size:1.3rem;margin:0 0 12px}.problem-statement p{margin:12px 0}.problem-goal{background:#edf4ff;border-radius:10px;padding:12px}.verification-setup{font-weight:800;background:#e9eff7;padding:12px;border-radius:10px}.solution-key{background:#eff9f2;border:2px solid #08744c;padding:16px;border-radius:12px;margin:12px 0}.solution-key h3{margin:0 0 12px;color:#075d3e}.solution-key p:last-child{margin-bottom:0}</style></head><body><main>
 <section class="card intro" aria-labelledby="title">
 <div class="eyebrow">見えなくても、そろえられる？</div>
 <h1 id="title">コインの不思議</h1>
-<p class="preview-question">目をつぶったままコインを分けて、<br>左右の「表の枚数」をそろえられる？</p>
+<div class="problem-statement" aria-labelledby="problemHeading"><h2 id="problemHeading">問題</h2>
+<p id="question">100枚のコインがあります。表向きは10枚、裏向きは90枚です。</p>
+<p>あなたは目隠しをしています。触っても、どのコインが表向きかは見分けられません。</p>
+<p class="problem-goal"><strong>コインを二つの組に分け、それぞれの「表向きの枚数」を同じにするには、どうすればよいでしょう？</strong></p>
+<p>二つの組のコインの総枚数は、違っていてもかまいません。コインは平らに置き、移動や裏返しができます。</p>
+<p>どのコインが表でも、必ず成功する方法を考えてください。</p></div>
 <button class="start-coin korostar-start" id="coinStart" aria-label="コロスターを押して問題を始める"><img src="assets/korostar-reference.png" width="160" height="226" alt="" draggable="false"></button>
 <p class="tap-caption">コロスターをタップして遊ぶ</p>
-<button class="primary" id="start" aria-controls="puzzle">はじめる</button>
+<button class="primary" id="start" aria-controls="puzzle">考えてみる</button>
 </section>
 <div id="puzzle" hidden>
-<section class="card" aria-labelledby="problemTitle"><p class="step-note">まずは、考えてみよう</p><h2 id="problemTitle" tabindex="-1">① 自分で考えてみよう</h2>
-<div class="choices" role="group" aria-label="同じ問題の枚数設定を選択"><button class="choice active" data-total="100" data-heads="10" aria-pressed="true">100枚<br>表10枚</button><button class="choice" data-total="200" data-heads="16" aria-pressed="false">200枚<br>表16枚</button><button class="choice" data-total="50" data-heads="5" aria-pressed="false">50枚<br>表5枚</button></div>
-<p class="muted">同じ考え方を、枚数を変えて試せます。</p><p id="question"></p><p>見ても触っても、どのコインが表向きかは見分けられません。コインを左と右に分けて、両方の「表の枚数」を同じにするには、どうすればよいでしょう？ 左と右で、コインの枚数は違っていてもかまいません。コインは平らに置き、移動や裏返しをしてかまいません。偶然に頼らず、必ず成功する方法を考えてください。</p>
+<section class="card" id="thinkingPanel" aria-labelledby="problemTitle"><p class="step-note">100枚・表10枚の問題で考えてみよう</p><h2 id="problemTitle" tabindex="-1">① 自分で考える</h2>
+<p>上の問題を読んで、方法を考えてみよう。必要なときだけ、ヒントを一つずつ開けます。</p>
 <button class="secondary" id="hintBtn" aria-expanded="false" aria-controls="hint">ヒントを見る</button><div id="hint" class="hint" hidden>
 <p class="hint-heading" id="hintHeading"></p><p id="hintText" aria-live="polite" aria-atomic="true"></p>
 <div class="hint-actions"><button type="button" id="hintPrev">前のヒント</button><button type="button" id="hintNext">次のヒント</button></div>
 <p class="muted">ヒントを使っても大丈夫。自分のペースで考えよう。</p></div>
 <p class="muted">ここまでが自分で考える時間です。次に進むと、解き方の手順が表示されます。</p><button class="primary" id="try" aria-controls="experiment">手順を見て、実験する</button></section>
 <div id="experiment" hidden>
-<section class="card" aria-labelledby="experimentTitle"><h2 id="experimentTitle" tabindex="-1">② 仕組みを確かめる実験</h2><p id="instruction"></p><p class="phase">ここからは、表裏を見ながら検証します</p><p class="muted" id="rangeHelp">目隠しで表を探すゲームではありません。取り出した組に表が何枚入っていたとしても、同じ手順が使えるか確かめよう。</p>
+<section class="card" aria-labelledby="experimentTitle"><h2 id="experimentTitle" tabindex="-1">② 解き方を検証する</h2><p id="verificationSetup" class="verification-setup"></p><details id="variantSettings"><summary>枚数を変えて、同じ方法を検証する</summary><p>最初の100枚で確かめてから、ほかの条件でも試せます。</p><div class="choices" role="group" aria-label="同じ問題の枚数設定を選択"><button class="choice active" data-total="100" data-heads="10" aria-pressed="true">100枚<br>表10枚</button><button class="choice" data-total="200" data-heads="16" aria-pressed="false">200枚<br>表16枚</button><button class="choice" data-total="50" data-heads="5" aria-pressed="false">50枚<br>表5枚</button></div></details><p id="instruction"></p><p class="phase">ここからは、表裏を見ながら検証します</p><p class="muted" id="rangeHelp">目隠しで表を探すゲームではありません。取り出した組に表が何枚入っていたとしても、同じ手順が使えるか確かめよう。</p>
 <p><strong>コインをタップして、表・裏を切り替えよう。</strong></p><p class="muted">まず、裏返す前の組合せを作ります。残りの組の表の数も、それに合わせて変わります。</p>
 <input id="range" type="hidden" value="3"><div class="coins" id="coins" role="group" aria-label="選んだ組の表裏を設定"></div><p class="muted" id="before"></p></section>
 <section class="card"><h2 id="flipTitle">③ 選んだ組だけを裏返そう</h2>
 <div class="stats" aria-live="polite" aria-atomic="true"><div class="stat"><span id="leftLabel"></span><b id="left">0</b><span>枚が表</span></div><div class="stat"><span id="rightLabel"></span><b id="right">0</b><span>枚が表</span></div></div>
 <p id="flipInstruction"></p><button class="primary" id="flip">選んだコインを全部裏返す</button><p id="result" class="result" role="status" aria-live="polite" aria-atomic="true"></p>
+<section class="solution-key" id="solutionKey" hidden aria-labelledby="solutionKeyTitle"><h3 id="solutionKeyTitle">正解のポイント</h3>
+<p><strong>最初の「表の総数」と、分けるコインの枚数を同じにすること。</strong></p>
+<p id="solutionSteps"></p><p id="solutionWhy"></p>
+<p>表のコインを探して選ぶ必要はありません。表裏を見ずに、どのコインを分けても使える方法です。</p></section>
 <div class="experiment-actions"><details id="answer" hidden><summary>なぜ同じになる？ 解説を見る</summary><p id="explanation"></p>
 <div class="relationship"><p><strong>比べるのは、この二つ</strong></p><p id="pickedRelationship"></p><p id="remainingRelationship"></p></div><p>どのコインが表かを知る必要はありません。<strong>表の総数と同じ枚数を取り出し、取り出したコインを全部裏返す</strong>と、必ず左右の表の枚数が同じになります。</p>
 <details><summary>文字で「いつでも」を確かめる</summary><p>全体の表が H 枚で、H 枚を取り出し、その中の表を x 枚とします。残りの組の表は H − x 枚です。取り出した組の裏も H − x 枚なので、全部裏返すと表は H − x 枚。どちらも一致します。</p></details>
@@ -51,7 +59,7 @@
 <button class="primary" id="checkFlip" type="button">取り出した組だけを裏返して見る</button>
 <p id="checkResult" class="check-result" role="status" aria-live="polite" aria-atomic="true"></p>
 <button class="secondary" id="checkReset" type="button" hidden>裏返す前に戻して、もう一度見る</button>
-<p>別の枚数でも確かめたいときは、「枚数を変えて応用する」へ進もう。</p></section>
+<p>別の枚数でも確かめたいときは、検証画面の「枚数を変えて、同じ方法を検証する」を開こう。</p></section>
 <section class="practice" aria-labelledby="thinkingTitle"><h3 id="thinkingTitle">この問題で使った考え方</h3>
 <p>この問題のポイントは、<strong>見えないものを探す代わりに、わかっている数の関係を使うこと</strong>です。</p>
 <p><strong>1．使える情報を整理する力</strong><br>どのコインが表かは不明でも、表の総数はわかっています。わかることと、わからないことを分けて考えました。</p>
@@ -62,13 +70,13 @@
 <p><strong>いつもの方法で行き詰まったとき</strong><br>「この方法でどう実行するか」から「そもそも何を実現したいか」に戻ると、別の手順を考えるきっかけになります。</p>
 <p><strong>手順や改善案を人に説明するとき</strong><br>「一度成功した」だけでなく、「条件が変わっても使えるか」「どんな条件なら成り立つか」を確かめ、根拠と一緒に伝える場面に通じます。</p>
 <p><strong>次に困ったら、「全部を知らなくても、関係からわかることはないか？」と考えてみよう。</strong></p>
-</section></details><button class="secondary" id="reset">実験を最初に戻す</button><button class="secondary" id="back">枚数を変えて応用する</button></div></section>
+</section></details><button class="secondary" id="reset">実験を最初に戻す</button><button class="secondary" id="back">100枚の問題に戻って考える</button></div></section>
 </div></div>
 <section class="card source-note"><details><summary>この問題について</summary><p>「コインの不思議」は、見えない数と表裏の関係を考える論理パズルです。企業の公式問題や、採用試験への効果を示すものではありません。</p><p>参考：<a href="https://mindyourdecisions.com/blog/2024/11/11/apples-coins-on-a-table-riddle-interview-question/" target="_blank" rel="noopener noreferrer">Mind Your Decisions の紹介記事</a>（2026年11月14日確認）。Apple公式の出題記録は確認できていません。</p></details></section>
 <noscript><p class="card">このクイズで遊ぶには、ブラウザのJavaScriptを有効にしてください。</p></noscript>
 <p class="foot">登録不要・無料。操作はこのページの中だけで完結します。</p></main>
 <script>
-(()=>{'use strict';const $=id=>document.getElementById(id);let total=100,heads=10,flipped=false,hintStage=0,checkFlipped=false,selectedFaces=[];const range=$('range');function render(){renderHint();if(selectedFaces.length!==heads)setFacesFromCount();const n=Number(range.value),remaining=heads-n,picked=flipped?heads-n:n;$('question').textContent=`コインが${total}枚あります。そのうち、表は${heads}枚です。残りはすべて裏です。`;$('instruction').textContent=`表の総数と同じ${heads}枚を選びました。この${heads}枚に、表が何枚入っていたかを変えて試します。`;$('coins').setAttribute('aria-label',`選んだ${heads}枚。${flipped?'裏返した後。元に戻すと表裏を設定できます':'コインを押すと表裏が切り替わります'}`);// Keep each coin in its own position: flipping changes its face, never its order.
+(()=>{'use strict';const $=id=>document.getElementById(id);let total=100,heads=10,flipped=false,hintStage=0,checkFlipped=false,selectedFaces=[];const range=$('range');function render(){renderHint();if(selectedFaces.length!==heads)setFacesFromCount();const n=Number(range.value),remaining=heads-n,picked=flipped?heads-n:n;$('verificationSetup').textContent=`検証する条件：全体${total}枚。そのうち表は${heads}枚、裏は${total-heads}枚。`;$('instruction').textContent=`表の総数と同じ${heads}枚を選びました。この${heads}枚に、表が何枚入っていたかを変えて試します。`;$('coins').setAttribute('aria-label',`選んだ${heads}枚。${flipped?'裏返した後。元に戻すと表裏を設定できます':'コインを押すと表裏が切り替わります'}`);// Keep each coin in its own position: flipping changes its face, never its order.
 const coins=$('coins');
 if(coins.children.length!==heads){
 coins.innerHTML=Array.from({length:heads},()=>'<button type="button" class="coin"></button>').join('');
@@ -77,10 +85,10 @@ if(flipped)return;selectedFaces[i]=!selectedFaces[i];range.value=String(selected
 })});
 }
 Array.from(coins.children).forEach((coin,i)=>{const isHead=flipped?!selectedFaces[i]:selectedFaces[i];coin.classList.toggle('head',isHead);coin.textContent=isHead?'表':'裏';coin.disabled=flipped;coin.setAttribute('aria-pressed',String(isHead));coin.setAttribute('aria-label',`選んだコイン${i+1}：${isHead?'表':'裏'}${flipped?'。裏返した後':'。押すと'+(isHead?'裏':'表')+'に切り替え'}`)});
-$('before').textContent=`裏返す前：選んだ${heads}枚中${n}枚が表。残り${total-heads}枚中${remaining}枚が表。`;$('leftLabel').textContent=`選んだ${heads}枚中`;$('rightLabel').textContent=`残り${total-heads}枚中`;$('flipInstruction').textContent=flipped?`選んだ${heads}枚だけを裏返しました。残りの${total-heads}枚は動かしていません。`:`このとき、選んだ${heads}枚だけを全部ひっくり返します。残りの${total-heads}枚はそのままです。`;$('left').textContent=picked;$('right').textContent=remaining;$('flip').textContent=flipped?'裏返す前に戻して、組合せを変える':`選んだ${heads}枚を全部ひっくり返す`;$('result').textContent=flipped?`成功！ 両方とも表が${remaining}枚になりました。`:(n===remaining?'今は表の枚数が同じです。裏返した後も確かめよう。':'今は表の枚数が違います。裏返すとどうなるかな？');$('result').className='result'+(flipped?' success':'');$('pickedRelationship').textContent=`取り出した組の裏 ${heads-n}枚 → 裏返す → 表 ${heads-n}枚`;$('remainingRelationship').textContent=`残りの組の表 ${remaining}枚 → そのまま → 表 ${remaining}枚`;renderCheck();$('explanation').textContent=`取り出した${heads}枚に表が${n}枚あるとすると、裏は${heads-n}枚。残りのコインには表が${heads-n}枚あります。取り出したコインをすべて裏返すと、元の裏${heads-n}枚が表になるので、必ず一致します。`}
+$('before').textContent=`裏返す前：選んだ${heads}枚中${n}枚が表。残り${total-heads}枚中${remaining}枚が表。`;$('leftLabel').textContent=`選んだ${heads}枚中`;$('rightLabel').textContent=`残り${total-heads}枚中`;$('flipInstruction').textContent=flipped?`選んだ${heads}枚だけを裏返しました。残りの${total-heads}枚は動かしていません。`:`このとき、選んだ${heads}枚だけを全部ひっくり返します。残りの${total-heads}枚はそのままです。`;$('left').textContent=picked;$('right').textContent=remaining;$('flip').textContent=flipped?'裏返す前に戻して、組合せを変える':`選んだ${heads}枚を全部ひっくり返す`;$('result').textContent=flipped?`成功！ 両方とも表が${remaining}枚になりました。`:(n===remaining?'今は表の枚数が同じです。裏返した後も確かめよう。':'今は表の枚数が違います。裏返すとどうなるかな？');$('result').className='result'+(flipped?' success':'');$('solutionKey').hidden=!flipped;$('solutionSteps').textContent=`最初の表は${heads}枚。そこで、どれでも${heads}枚を分け、その${heads}枚だけを全部ひっくり返します。`;$('solutionWhy').textContent=`その枚数を分けると、選んだ組の裏と、残りの組の表が同じ数になります。この例ではどちらも${remaining}枚。選んだ組の裏が表に変わるので、そろいます。`;$('pickedRelationship').textContent=`取り出した組の裏 ${heads-n}枚 → 裏返す → 表 ${heads-n}枚`;$('remainingRelationship').textContent=`残りの組の表 ${remaining}枚 → そのまま → 表 ${remaining}枚`;renderCheck();$('explanation').textContent=`取り出した${heads}枚に表が${n}枚あるとすると、裏は${heads-n}枚。残りのコインには表が${heads-n}枚あります。取り出したコインをすべて裏返すと、元の裏${heads-n}枚が表になるので、必ず一致します。`}
 function setFacesFromCount(){selectedFaces=Array.from({length:heads},(_,i)=>i<Number(range.value))}
-function setProblem(t,h){total=t;heads=h;flipped=false;hideAnswer();closeHint();$('experiment').hidden=true;range.max=String(h);range.value=String(Math.floor(h/3));setFacesFromCount();document.querySelectorAll('.choice').forEach(b=>{const selected=Number(b.dataset.total)===t;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))});render()}
-document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>setProblem(Number(b.dataset.total),Number(b.dataset.heads))));range.addEventListener('input',()=>{setFacesFromCount();flipped=false;hideAnswer();render()});$('flip').addEventListener('click',()=>{flipped=!flipped;if(flipped){$('answer').hidden=false}else{hideAnswer()}render()});$('reset').addEventListener('click',()=>{flipped=false;hideAnswer();closeHint();range.value=String(Math.floor(heads/3));setFacesFromCount();render();$('coins').children[0].focus()});$('hintBtn').addEventListener('click',()=>{const show=$('hint').hidden;$('hint').hidden=!show;$('hintBtn').textContent=show?'ヒントを閉じる':'ヒントを見る';$('hintBtn').setAttribute('aria-expanded',String(show))});
+function setProblem(t,h){total=t;heads=h;flipped=false;hideAnswer();closeHint();range.max=String(h);range.value=String(Math.floor(h/3));setFacesFromCount();document.querySelectorAll('.choice').forEach(b=>{const selected=Number(b.dataset.total)===t;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))});render()}
+document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{setProblem(Number(b.dataset.total),Number(b.dataset.heads));$('variantSettings').open=false;moveTo('experimentTitle')}));range.addEventListener('input',()=>{setFacesFromCount();flipped=false;hideAnswer();render()});$('flip').addEventListener('click',()=>{flipped=!flipped;if(flipped){$('answer').hidden=false}else{hideAnswer()}render()});$('reset').addEventListener('click',()=>{flipped=false;hideAnswer();closeHint();range.value=String(Math.floor(heads/3));setFacesFromCount();render();$('coins').children[0].focus()});$('hintBtn').addEventListener('click',()=>{const show=$('hint').hidden;$('hint').hidden=!show;$('hintBtn').textContent=show?'ヒントを閉じる':'ヒントを見る';$('hintBtn').setAttribute('aria-expanded',String(show))});
 function hideAnswer(){resetCheck();$('answer').hidden=true;$('answer').open=false}
 function closeHint(){hintStage=0;renderHint();$('hint').hidden=true;$('hintBtn').textContent='ヒントを見る';$('hintBtn').setAttribute('aria-expanded','false')}
 function renderHint(){
@@ -110,9 +118,9 @@ function resetCheck(){checkFlipped=false;renderCheck()}
 $('checkFlip').addEventListener('click',()=>{checkFlipped=true;renderCheck()});
 $('checkReset').addEventListener('click',resetCheck);
 function moveTo(id){const target=$(id);target.focus({preventScroll:true});target.scrollIntoView({block:'start'})}
-function start(){$('puzzle').hidden=false;moveTo('problemTitle')}
+function start(){setProblem(100,10);$('experiment').hidden=true;$('thinkingPanel').hidden=false;$('puzzle').hidden=false;moveTo('problemTitle')}
 $('start').addEventListener('click',start);$('coinStart').addEventListener('click',start);
-$('try').addEventListener('click',()=>{$('experiment').hidden=false;moveTo('experimentTitle')});
-$('back').addEventListener('click',()=>{$('experiment').hidden=true;flipped=false;hideAnswer();closeHint();render();moveTo('problemTitle')});
+$('try').addEventListener('click',()=>{$('thinkingPanel').hidden=true;$('experiment').hidden=false;moveTo('experimentTitle')});
+$('back').addEventListener('click',()=>{setProblem(100,10);$('variantSettings').open=false;$('experiment').hidden=true;$('thinkingPanel').hidden=false;moveTo('problemTitle')});
 setProblem(100,10)})();
 </script></body></html>

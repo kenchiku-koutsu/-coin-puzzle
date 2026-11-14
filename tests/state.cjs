@@ -50,21 +50,22 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
 vm.runInNewContext(script,{document,Event:class{constructor(type){this.type=type}}},{timeout:1000});
 const el=id=>ids.get(id);
 assert.equal(el('puzzle').hidden,true);el('coinStart').click();assert.equal(el('puzzle').hidden,false);
+assert.equal(el('experiment').hidden,true);assert.equal(el('range').value,'3');
+assert.equal(choices[0].attrs['aria-pressed'],'true');
+el('hintBtn').click();assert.equal(el('hint').hidden,false);assert.match(el('hintHeading').textContent,/ヒント1/);
+assert.equal(el('hintPrev').disabled,true);
+el('hintNext').click();assert.match(el('hintHeading').textContent,/ヒント2/);
+el('hintNext').click();assert.match(el('hintText').textContent,/10枚/);assert.equal(el('hintNext').disabled,true);
 for(const choice of choices){
+ el('try').click();assert.equal(el('experiment').hidden,false);assert.equal(el('thinkingPanel').hidden,true);
  choice.click();const h=Number(choice.dataset.heads);
- assert.equal(el('hint').hidden,true);assert.equal(el('experiment').hidden,true);
- el('hintBtn').click();assert.equal(el('hint').hidden,false);assert.match(el('hintHeading').textContent,/ヒント1/);
- assert.equal(el('hintPrev').disabled,true);
- assert.ok(!el('hintText').textContent.includes(`${h}枚を`),'first hint must not give the extraction step');
- el('hintNext').click();assert.match(el('hintHeading').textContent,/ヒント2/);
- el('hintNext').click();assert.match(el('hintText').textContent,new RegExp(`${h}枚`));assert.equal(el('hintNext').disabled,true);
- el('hintPrev').click();assert.match(el('hintHeading').textContent,/ヒント2/);
- el('try').click();assert.equal(el('experiment').hidden,false);
+ assert.equal(el('experiment').hidden,false);assert.equal(el('variantSettings').open,false);
+ assert.match(el('verificationSetup').textContent,new RegExp(`${choice.dataset.total}枚`));
  for(const c of fixture.cases.filter(c=>c.total===Number(choice.dataset.total))){
   el('range').value=String(c.n);el('range').dispatchEvent({type:'input'});
   assert.equal(Number(el('left').textContent),c.before);assert.equal(Number(el('right').textContent),c.remaining);
   const coins=[...el('coins').children];const faces=coins.map(x=>x.textContent);
-  el('flip').click();assert.equal(el('answer').hidden,false);
+  assert.equal(el('solutionKey').hidden,true);el('flip').click();assert.equal(el('answer').hidden,false);assert.equal(el('solutionKey').hidden,false);assert.match(el('solutionSteps').textContent,new RegExp(`最初の表は${h}枚`));
   assert.equal(Number(el('left').textContent),c.after);assert.equal(Number(el('right').textContent),c.remaining);
   coins.forEach((coin,i)=>{assert.equal(el('coins').children[i],coin);assert.equal(coin.textContent,faces[i]==='表'?'裏':'表')});
   assert.equal(el('checkStage').textContent,'裏返す前');
@@ -88,7 +89,7 @@ for(const choice of choices){
   assert.deepEqual(coins.map(x=>x.textContent),faces);
  }
  el('reset').click();assert.equal(document.activeElement.id,'selected-coin-0');assert.equal(el('hint').hidden,true);assert.match(el('hintHeading').textContent,/ヒント1/);
- el('back').click();assert.equal(el('experiment').hidden,true);assert.equal(document.activeElement.id,'problemTitle');
+ el('back').click();assert.equal(el('experiment').hidden,true);assert.equal(el('thinkingPanel').hidden,false);assert.equal(choices[0].attrs['aria-pressed'],'true');assert.equal(document.activeElement.id,'problemTitle');
 }
 // Arbitrary taps must keep each coin's state and location, not regroup the heads.
 choices[0].click();el('try').click();el('range').value='0';el('range').dispatchEvent({type:'input'});
@@ -106,7 +107,7 @@ el('checkFlip').click();assert.deepEqual(el('checkPicked').children.map(x=>x.tex
 el('flip').click();assert.deepEqual(tapped.map(x=>x.textContent),arbitraryFaces);
 tapped[7].click();tapped[7].click();assert.deepEqual(tapped.map(x=>x.textContent),arbitraryFaces);
 assert.match(html,/次に進むと、解き方の手順/);
-assert.match(html,/同じ考え方を、枚数を変えて/);
-assert.match(html,/見ても触っても/);
+assert.ok(html.indexOf('<div class="choices"')>html.indexOf('<div id="experiment"'));assert.match(html,/100枚のコインがあります。表向きは10枚、裏向きは90枚/);
+assert.match(html,/触っても/);
 assert.equal((html.match(/<script>/g)||[]).length,1);
 console.log(`PASS: ${fixture.cases.length} Python-derived configurations; arbitrary coin taps and reversal without reordering; group-total labels; staged hints; visual comparison; reset/back. Simulated DOM only.`);
